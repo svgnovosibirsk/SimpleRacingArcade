@@ -9,21 +9,25 @@
 /* Begin PBXBuildFile section */
 		7CC6CEDD2B0CA66B008382AE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC6CEDC2B0CA66B008382AE /* AppDelegate.swift */; };
 		7CC6CEDF2B0CA66B008382AE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC6CEDE2B0CA66B008382AE /* SceneDelegate.swift */; };
-		7CC6CEE12B0CA66B008382AE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC6CEE02B0CA66B008382AE /* ViewController.swift */; };
+		7CC6CEE12B0CA66B008382AE /* FirstScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC6CEE02B0CA66B008382AE /* FirstScreenViewController.swift */; };
 		7CC6CEE42B0CA66B008382AE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7CC6CEE22B0CA66B008382AE /* Main.storyboard */; };
 		7CC6CEE62B0CA66D008382AE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7CC6CEE52B0CA66D008382AE /* Assets.xcassets */; };
 		7CC6CEE92B0CA66D008382AE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7CC6CEE72B0CA66D008382AE /* LaunchScreen.storyboard */; };
+		7CC6CEF22B0CA9E9008382AE /* RoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC6CEF12B0CA9E9008382AE /* RoundedButton.swift */; };
+		7CC6CEF52B0CB925008382AE /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC6CEF42B0CB925008382AE /* Constants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		7CC6CED92B0CA66B008382AE /* SimpleRacingArcade.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimpleRacingArcade.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7CC6CEDC2B0CA66B008382AE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7CC6CEDE2B0CA66B008382AE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		7CC6CEE02B0CA66B008382AE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		7CC6CEE02B0CA66B008382AE /* FirstScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstScreenViewController.swift; sourceTree = "<group>"; };
 		7CC6CEE32B0CA66B008382AE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7CC6CEE52B0CA66D008382AE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7CC6CEE82B0CA66D008382AE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7CC6CEEA2B0CA66D008382AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7CC6CEF12B0CA9E9008382AE /* RoundedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedButton.swift; sourceTree = "<group>"; };
+		7CC6CEF42B0CB925008382AE /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,15 +60,33 @@
 		7CC6CEDB2B0CA66B008382AE /* SimpleRacingArcade */ = {
 			isa = PBXGroup;
 			children = (
-				7CC6CEDC2B0CA66B008382AE /* AppDelegate.swift */,
-				7CC6CEDE2B0CA66B008382AE /* SceneDelegate.swift */,
-				7CC6CEE02B0CA66B008382AE /* ViewController.swift */,
+				7CC6CEF02B0CA995008382AE /* SupportingFiles */,
+				7CC6CEF32B0CA9F9008382AE /* CustomViews */,
+				7CC6CEE02B0CA66B008382AE /* FirstScreenViewController.swift */,
 				7CC6CEE22B0CA66B008382AE /* Main.storyboard */,
 				7CC6CEE52B0CA66D008382AE /* Assets.xcassets */,
 				7CC6CEE72B0CA66D008382AE /* LaunchScreen.storyboard */,
 				7CC6CEEA2B0CA66D008382AE /* Info.plist */,
 			);
 			path = SimpleRacingArcade;
+			sourceTree = "<group>";
+		};
+		7CC6CEF02B0CA995008382AE /* SupportingFiles */ = {
+			isa = PBXGroup;
+			children = (
+				7CC6CEDC2B0CA66B008382AE /* AppDelegate.swift */,
+				7CC6CEDE2B0CA66B008382AE /* SceneDelegate.swift */,
+				7CC6CEF42B0CB925008382AE /* Constants.swift */,
+			);
+			path = SupportingFiles;
+			sourceTree = "<group>";
+		};
+		7CC6CEF32B0CA9F9008382AE /* CustomViews */ = {
+			isa = PBXGroup;
+			children = (
+				7CC6CEF12B0CA9E9008382AE /* RoundedButton.swift */,
+			);
+			path = CustomViews;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,9 +160,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7CC6CEE12B0CA66B008382AE /* ViewController.swift in Sources */,
+				7CC6CEF52B0CB925008382AE /* Constants.swift in Sources */,
+				7CC6CEE12B0CA66B008382AE /* FirstScreenViewController.swift in Sources */,
 				7CC6CEDD2B0CA66B008382AE /* AppDelegate.swift in Sources */,
 				7CC6CEDF2B0CA66B008382AE /* SceneDelegate.swift in Sources */,
+				7CC6CEF22B0CA9E9008382AE /* RoundedButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
