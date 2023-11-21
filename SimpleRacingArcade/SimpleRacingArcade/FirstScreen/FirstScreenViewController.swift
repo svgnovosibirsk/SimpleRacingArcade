@@ -10,19 +10,20 @@ import UIKit
 final class FirstScreenViewController: UIViewController {
     
     //MARK: - Properties
-    let stackView = UIStackView()
+    private let stackView = UIStackView()
 
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        title = Constants.firstScreenTitle
         view.backgroundColor = .white
         setupStackView()
         setupButtons()
     }
     
     //MARK: - Flow
-    // MARK: - Buttons
+    //MARK: - Buttons
     private func setupButtons() {
         let startButton = UIButton.roundedButton(title: Constants.titleStart, color: .systemRed)
         startButton.addTarget(self, action: #selector(startButtonDidPress), for: .touchUpInside)
@@ -39,22 +40,22 @@ final class FirstScreenViewController: UIViewController {
     }
     
     @objc func startButtonDidPress() {
-        //TODO: Implement
-        print(#function)
+        let gameVC = GameViewController()
+        navigationController?.pushViewController(gameVC, animated: true)
     }
     
     @objc func settingsButtonDidPress() {
-        //TODO: Implement
-        print(#function)
+        let settingsVC = SettingsViewController()
+        navigationController?.pushViewController(settingsVC, animated: true)
     }
     
     @objc func recordsButtonDidPress() {
-        //TODO: Implement
-        print(#function)
+        let recordsVC = RecordsViewController()
+        navigationController?.pushViewController(recordsVC, animated: true)
     }
     
-    // MARK: - Stack View
-    func setupStackView() {
+    //MARK: - Stack View
+    private func setupStackView() {
         stackView.axis = .vertical
         stackView.alignment = .center
         stackView.distribution = .equalSpacing
@@ -69,7 +70,7 @@ final class FirstScreenViewController: UIViewController {
         setupStackViewConstraints()
     }
     
-    func setupStackViewConstraints() {
+    private func setupStackViewConstraints() {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(stackView)
         
