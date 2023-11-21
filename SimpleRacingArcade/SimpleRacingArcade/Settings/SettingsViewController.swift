@@ -9,6 +9,7 @@ import UIKit
 
 final class SettingsViewController: UIViewController {
 
+    //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         

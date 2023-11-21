@@ -10,7 +10,7 @@ import UIKit
 final class FirstScreenViewController: UIViewController {
     
     //MARK: - Properties
-    let stackView = UIStackView()
+    private let stackView = UIStackView()
 
     //MARK: - Lifecycle
     override func viewDidLoad() {
@@ -23,7 +23,7 @@ final class FirstScreenViewController: UIViewController {
     }
     
     //MARK: - Flow
-    // MARK: - Buttons
+    //MARK: - Buttons
     private func setupButtons() {
         let startButton = UIButton.roundedButton(title: Constants.titleStart, color: .systemRed)
         startButton.addTarget(self, action: #selector(startButtonDidPress), for: .touchUpInside)
@@ -54,8 +54,8 @@ final class FirstScreenViewController: UIViewController {
         navigationController?.pushViewController(recordsVC, animated: true)
     }
     
-    // MARK: - Stack View
-    func setupStackView() {
+    //MARK: - Stack View
+    private func setupStackView() {
         stackView.axis = .vertical
         stackView.alignment = .center
         stackView.distribution = .equalSpacing
@@ -70,7 +70,7 @@ final class FirstScreenViewController: UIViewController {
         setupStackViewConstraints()
     }
     
-    func setupStackViewConstraints() {
+    private func setupStackViewConstraints() {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(stackView)
         
