@@ -16,6 +16,7 @@ final class FirstScreenViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        title = Constants.firstScreenTitle
         view.backgroundColor = .white
         setupStackView()
         setupButtons()
@@ -39,18 +40,18 @@ final class FirstScreenViewController: UIViewController {
     }
     
     @objc func startButtonDidPress() {
-        //TODO: Implement
-        print(#function)
+        let gameVC = GameViewController()
+        navigationController?.pushViewController(gameVC, animated: true)
     }
     
     @objc func settingsButtonDidPress() {
-        //TODO: Implement
-        print(#function)
+        let settingsVC = SettingsViewController()
+        navigationController?.pushViewController(settingsVC, animated: true)
     }
     
     @objc func recordsButtonDidPress() {
-        //TODO: Implement
-        print(#function)
+        let recordsVC = RecordsViewController()
+        navigationController?.pushViewController(recordsVC, animated: true)
     }
     
     // MARK: - Stack View
