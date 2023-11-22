@@ -15,6 +15,8 @@ enum Constants {
     static let gameScreenTitle = "Game"
     static let settingsScreenTitle = "Settings"
     static let recordsScreenTitle = "Records"
+    static let nameText = "Name"
+    static let photoText = "Photo"
     
     static let cornerRadius20: CGFloat = 20.0
     static let cornerRadius10: CGFloat = 10.0
