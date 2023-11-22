@@ -12,14 +12,21 @@ final class SettingsViewController: UIViewController {
     private enum LocalConstants {
         static let nameLabelPlaceholder = "Enter your name"
         static let imagePlaceholderName = "person"
+        static let selectedCarSegment = 1
+        static let selectedSegmentWhite: CGFloat = 0
+        static let selectedSegmentAlfa = 0.2
     }
     
     //MARK: - Properties
     private let stackView = UIStackView()
+    private let segmentedControlsStackView = UIStackView()
     private let nameLabel = UILabel.largeFontLabel(withText: Constants.nameText)
     private let photoLabel = UILabel.largeFontLabel(withText: Constants.photoText)
     private let nameTextField = UITextField()
     private let playerImageView = UIImageView()
+    private let carSegmentedControl = UISegmentedControl(items: Car.cars())
+    private let obstaclesSegmentedControl = UISegmentedControl(items: Obstacle.obstacles())
+    private let speedSegmentedControl = UISegmentedControl(items: Speed.speedOptions())
 
     //MARK: - Lifecycle
     override func viewDidLoad() {
@@ -38,6 +45,10 @@ final class SettingsViewController: UIViewController {
         setupNameTextField()
         setupPhotoLabel()
         setupPlayerImageView()
+        setupSegmentedControlsStackView()
+        setupCarSegmentedControl()
+        setupObstaclesSegmentedControl()
+        setupSpeedSegmentedControl()
     }
     
     //MARK: Stack
@@ -134,6 +145,7 @@ final class SettingsViewController: UIViewController {
                                      height: Constants.width200))
         
         playerImageView.tintColor = .black
+        //TODO: delete or implement
 //        playerImageView.layer.borderColor = UIColor.black.cgColor
 //        playerImageView.layer.borderWidth = 2
 //        playerImageView.layer.cornerRadius = (playerImageView.image?.size.height)! / 2
@@ -145,5 +157,119 @@ final class SettingsViewController: UIViewController {
     private func setPlayerImageViewConstaraints() {
         playerImageView.translatesAutoresizingMaskIntoConstraints = false
         stackView.addArrangedSubview(playerImageView)
+    }
+    
+    // MARK: Segmented Controls
+    private func setupSegmentedControlsStackView() {
+        segmentedControlsStackView.axis = .vertical
+        segmentedControlsStackView.alignment = .center
+        segmentedControlsStackView.distribution = .fillEqually
+        segmentedControlsStackView.spacing = Constants.spacing20
+        segmentedControlsStackView.backgroundColor = .systemYellow
+        segmentedControlsStackView.isLayoutMarginsRelativeArrangement = true
+        setupSegmentedControlsStackViewConstraints()
+    }
+    
+    private func setupSegmentedControlsStackViewConstraints() {
+        segmentedControlsStackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.addSubview(segmentedControlsStackView)
+        
+        NSLayoutConstraint.activate([
+            segmentedControlsStackView.leadingAnchor.constraint(equalTo: stackView.leadingAnchor,
+                                                   constant: Constants.constraint20),
+            segmentedControlsStackView.trailingAnchor.constraint(equalTo: stackView.trailingAnchor,
+                                                    constant: Constants.constraintMinus20),
+            segmentedControlsStackView.bottomAnchor.constraint(equalTo: stackView.bottomAnchor,
+                                                    constant: Constants.constraintMinus20)
+        ])
+    }
+    
+    private func setupCarSegmentedControl() {
+        carSegmentedControl.backgroundColor = .systemYellow
+        carSegmentedControl.selectedSegmentTintColor = .yellow
+        carSegmentedControl.selectedSegmentIndex = LocalConstants.selectedCarSegment
+        carSegmentedControl.addTarget(self, action: #selector(carSegmentedControlDidChange),
+                                      for: .valueChanged)
+        setupCarSegmentedControlConstraints()
+    }
+    
+    private func setupCarSegmentedControlConstraints() {
+        carSegmentedControl.translatesAutoresizingMaskIntoConstraints = false
+        segmentedControlsStackView.addArrangedSubview(carSegmentedControl)
+        
+        NSLayoutConstraint.activate([
+            carSegmentedControl.leadingAnchor.constraint(equalTo: stackView.leadingAnchor,
+                                                   constant: Constants.constraint20),
+            carSegmentedControl.trailingAnchor.constraint(equalTo: stackView.trailingAnchor,
+                                                    constant: Constants.constraintMinus20)
+        ])
+    }
+    
+    @objc private func carSegmentedControlDidChange(_ segmentedControl: UISegmentedControl) {
+        print(#function)
+        print(segmentedControl.selectedSegmentIndex)
+        
+        switch segmentedControl.selectedSegmentIndex {
+        case 0:
+            segmentedControl.selectedSegmentTintColor = .systemRed
+        case 2:
+            segmentedControl.selectedSegmentTintColor = .systemGreen
+        default:
+            segmentedControl.selectedSegmentTintColor = .yellow
+        }
+    }
+    
+    private func setupObstaclesSegmentedControl() {
+        obstaclesSegmentedControl.backgroundColor = .systemYellow
+        obstaclesSegmentedControl.selectedSegmentTintColor = UIColor(white: LocalConstants.selectedSegmentWhite,
+                                                                     alpha: LocalConstants.selectedSegmentAlfa)
+        obstaclesSegmentedControl.selectedSegmentIndex = LocalConstants.selectedCarSegment
+        obstaclesSegmentedControl.addTarget(self, action: #selector(obstaclesSegmentedControlDidChange),
+                                      for: .valueChanged)
+        setupObstaclesSegmentedControlConstraints()
+    }
+    
+    private func setupObstaclesSegmentedControlConstraints() {
+        obstaclesSegmentedControl.translatesAutoresizingMaskIntoConstraints = false
+        segmentedControlsStackView.addArrangedSubview(obstaclesSegmentedControl)
+        
+        NSLayoutConstraint.activate([
+            obstaclesSegmentedControl.leadingAnchor.constraint(equalTo: stackView.leadingAnchor,
+                                                   constant: Constants.constraint20),
+            obstaclesSegmentedControl.trailingAnchor.constraint(equalTo: stackView.trailingAnchor,
+                                                    constant: Constants.constraintMinus20)
+        ])
+    }
+    
+    @objc private func obstaclesSegmentedControlDidChange(_ segmentedControl: UISegmentedControl) {
+        print(#function)
+        print(segmentedControl.selectedSegmentIndex)
+    }
+    
+    private func setupSpeedSegmentedControl() {
+        speedSegmentedControl.backgroundColor = .systemYellow
+        speedSegmentedControl.selectedSegmentTintColor = UIColor(white: LocalConstants.selectedSegmentWhite,
+                                                                     alpha: LocalConstants.selectedSegmentAlfa)
+        speedSegmentedControl.selectedSegmentIndex = LocalConstants.selectedCarSegment
+        speedSegmentedControl.addTarget(self, action: #selector(speedSegmentedControlDidChange),
+                                      for: .valueChanged)
+        setupSpeedSegmentedControlConstraints()
+    }
+    
+    private func setupSpeedSegmentedControlConstraints() {
+        obstaclesSegmentedControl.translatesAutoresizingMaskIntoConstraints = false
+        segmentedControlsStackView.addArrangedSubview(speedSegmentedControl)
+        
+        NSLayoutConstraint.activate([
+            speedSegmentedControl.leadingAnchor.constraint(equalTo: stackView.leadingAnchor,
+                                                   constant: Constants.constraint20),
+            speedSegmentedControl.trailingAnchor.constraint(equalTo: stackView.trailingAnchor,
+                                                    constant: Constants.constraintMinus20)
+        ])
+    }
+    
+    @objc private func speedSegmentedControlDidChange(_ segmentedControl: UISegmentedControl) {
+        print(#function)
+        print(segmentedControl.selectedSegmentIndex)
     }
 }
