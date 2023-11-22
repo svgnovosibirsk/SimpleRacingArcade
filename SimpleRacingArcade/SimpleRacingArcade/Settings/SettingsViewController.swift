@@ -11,6 +11,7 @@ final class SettingsViewController: UIViewController {
     //MARK: - Constants
     private enum LocalConstants {
         static let nameLabelPlaceholder = "Enter your name"
+        static let imagePlaceholderName = "person"
     }
     
     //MARK: - Properties
@@ -18,6 +19,7 @@ final class SettingsViewController: UIViewController {
     private let nameLabel = UILabel.largeFontLabel(withText: Constants.nameText)
     private let photoLabel = UILabel.largeFontLabel(withText: Constants.photoText)
     private let nameTextField = UITextField()
+    private let playerImageView = UIImageView()
 
     //MARK: - Lifecycle
     override func viewDidLoad() {
@@ -35,6 +37,7 @@ final class SettingsViewController: UIViewController {
         setupNameLabel()
         setupNameTextField()
         setupPhotoLabel()
+        setupPlayerImageView()
     }
     
     //MARK: Stack
@@ -121,5 +124,26 @@ final class SettingsViewController: UIViewController {
     
     @objc func dismissKeyboard(_ recognizer: UITapGestureRecognizer) {
         view.endEditing(true)
+    }
+    
+    //MARK: ImageView
+    private func setupPlayerImageView()  {
+        playerImageView.image = UIImage(
+            systemName: LocalConstants.imagePlaceholderName
+        )?.imageWith(newSize: CGSize(width: Constants.width200,
+                                     height: Constants.width200))
+        
+        playerImageView.tintColor = .black
+//        playerImageView.layer.borderColor = UIColor.black.cgColor
+//        playerImageView.layer.borderWidth = 2
+//        playerImageView.layer.cornerRadius = (playerImageView.image?.size.height)! / 2
+//        playerImageView.clipsToBounds = true
+        playerImageView.contentMode = .scaleAspectFit
+        setPlayerImageViewConstaraints()
+    }
+    
+    private func setPlayerImageViewConstaraints() {
+        playerImageView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.addArrangedSubview(playerImageView)
     }
 }

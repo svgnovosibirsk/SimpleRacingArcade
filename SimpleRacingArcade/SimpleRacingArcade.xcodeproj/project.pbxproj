@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		7C5A297B2B0DC3C50018D453 /* LargeFontLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5A297A2B0DC3C50018D453 /* LargeFontLabel.swift */; };
 		7C5A297D2B0DCAB00018D453 /* TextField+DoneButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5A297C2B0DCAB00018D453 /* TextField+DoneButton.swift */; };
+		7C5A297F2B0DE3850018D453 /* UIImage+Size.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5A297E2B0DE3850018D453 /* UIImage+Size.swift */; };
 		7CC6CEDD2B0CA66B008382AE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC6CEDC2B0CA66B008382AE /* AppDelegate.swift */; };
 		7CC6CEDF2B0CA66B008382AE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC6CEDE2B0CA66B008382AE /* SceneDelegate.swift */; };
 		7CC6CEE12B0CA66B008382AE /* FirstScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC6CEE02B0CA66B008382AE /* FirstScreenViewController.swift */; };
@@ -28,6 +29,7 @@
 /* Begin PBXFileReference section */
 		7C5A297A2B0DC3C50018D453 /* LargeFontLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeFontLabel.swift; sourceTree = "<group>"; };
 		7C5A297C2B0DCAB00018D453 /* TextField+DoneButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TextField+DoneButton.swift"; sourceTree = "<group>"; };
+		7C5A297E2B0DE3850018D453 /* UIImage+Size.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Size.swift"; sourceTree = "<group>"; };
 		7CC6CED92B0CA66B008382AE /* SimpleRacingArcade.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimpleRacingArcade.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7CC6CEDC2B0CA66B008382AE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7CC6CEDE2B0CA66B008382AE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -107,6 +109,7 @@
 				7CC6CEF12B0CA9E9008382AE /* RoundedButton.swift */,
 				7C5A297A2B0DC3C50018D453 /* LargeFontLabel.swift */,
 				7C5A297C2B0DCAB00018D453 /* TextField+DoneButton.swift */,
+				7C5A297E2B0DE3850018D453 /* UIImage+Size.swift */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -232,6 +235,7 @@
 				7CC6CEE12B0CA66B008382AE /* FirstScreenViewController.swift in Sources */,
 				7C5A297B2B0DC3C50018D453 /* LargeFontLabel.swift in Sources */,
 				7CC6CEDD2B0CA66B008382AE /* AppDelegate.swift in Sources */,
+				7C5A297F2B0DE3850018D453 /* UIImage+Size.swift in Sources */,
 				7CC6CEDF2B0CA66B008382AE /* SceneDelegate.swift in Sources */,
 				7CC6CEF72B0CCC77008382AE /* GameViewController.swift in Sources */,
 				7CC6CEF22B0CA9E9008382AE /* RoundedButton.swift in Sources */,
