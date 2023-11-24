@@ -8,6 +8,25 @@
 import UIKit
 
 final class SettingsViewController: UIViewController {
+    //MARK: - Constants
+    private enum LocalConstants {
+        static let nameLabelPlaceholder = "Enter your name"
+        static let imagePlaceholderName = "person"
+        static let selectedCarSegment = 1
+        static let selectedSegmentWhite: CGFloat = 0
+        static let selectedSegmentAlfa = 0.2
+    }
+    
+    //MARK: - Properties
+    private let stackView = UIStackView()
+    private let segmentedControlsStackView = UIStackView()
+    private let nameLabel = UILabel.largeFontLabel(withText: Constants.nameText)
+    private let photoLabel = UILabel.largeFontLabel(withText: Constants.photoText)
+    private let nameTextField = UITextField()
+    private let playerImageView = UIImageView()
+    private let carSegmentedControl = UISegmentedControl(items: Car.cars())
+    private let obstaclesSegmentedControl = UISegmentedControl(items: Obstacle.obstacles())
+    private let speedSegmentedControl = UISegmentedControl(items: Speed.speedOptions())
 
     //MARK: - Lifecycle
     override func viewDidLoad() {
@@ -15,5 +34,242 @@ final class SettingsViewController: UIViewController {
         
         title = Constants.settingsScreenTitle
         view.backgroundColor = .systemYellow
+        setupScreen()
+        setupDismissKeyboardGestureRecognizer()
+    }
+    
+    //MARK: Flow
+    private func setupScreen() {
+        setupStackView()
+        setupNameLabel()
+        setupNameTextField()
+        setupPhotoLabel()
+        setupPlayerImageView()
+        setupSegmentedControlsStackView()
+        setupCarSegmentedControl()
+        setupObstaclesSegmentedControl()
+        setupSpeedSegmentedControl()
+    }
+    
+    //MARK: Stack
+    private func setupStackView() {
+        stackView.axis = .vertical
+        stackView.alignment = .center
+        stackView.distribution = .fillProportionally
+        stackView.spacing = Constants.spacing20
+        stackView.backgroundColor = .systemYellow
+        stackView.isLayoutMarginsRelativeArrangement = true
+        setupStackViewConstraints()
+    }
+    
+    private func setupStackViewConstraints() {
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(stackView)
+        
+        NSLayoutConstraint.activate([
+            stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            stackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
+    }
+    
+    //MARK: Labels
+    private func setupNameLabel() {
+        nameLabel.translatesAutoresizingMaskIntoConstraints = false
+        stackView.addArrangedSubview(nameLabel)
+    }
+    
+    private func setupPhotoLabel() {
+        photoLabel.translatesAutoresizingMaskIntoConstraints = false
+        stackView.addArrangedSubview(photoLabel)
+    }
+    
+    //MARK: TextField
+    private func setupNameTextField() {
+        nameTextField.placeholder = LocalConstants.nameLabelPlaceholder
+        nameTextField.backgroundColor = .systemYellow
+        nameTextField.layer.cornerRadius = Constants.cornerRadius10
+        nameTextField.layer.borderColor = UIColor.black.cgColor
+        nameTextField.layer.borderWidth = Constants.borderWidth2
+        nameTextField.font = UIFont.systemFont(ofSize: Constants.fontSize20)
+        addNameTextFieldPadding()
+        nameTextField.addDoneButton(title: Constants.doneText,
+                                    target: self,
+                                    selector: #selector(tapDone(sender:)))
+        nameTextField.clearButtonMode = .whileEditing
+        setupNameTextFieldConstraints()
+    }
+    
+    private func setupNameTextFieldConstraints() {
+        nameTextField.translatesAutoresizingMaskIntoConstraints = false
+        stackView.addArrangedSubview(nameTextField)
+        
+        NSLayoutConstraint.activate([
+            nameTextField.leadingAnchor.constraint(equalTo: stackView.leadingAnchor,
+                                                   constant: Constants.constraint20),
+            nameTextField.trailingAnchor.constraint(equalTo: stackView.trailingAnchor,
+                                                    constant: Constants.constraintMinus20),
+            nameTextField.heightAnchor.constraint(equalToConstant: Constants.constraint50)
+        ])
+    }
+    
+    private func addNameTextFieldPadding() {
+        let paddingView = UIView(frame: CGRect(x: .zero,
+                                               y: .zero,
+                                               width: Constants.constraint10,
+                                               height: Constants.constraint50))
+        nameTextField.leftView = paddingView
+        nameTextField.leftViewMode = .always
+    }
+    
+    //MARK: Keyboard handling
+    @objc func tapDone(sender: Any) {
+           self.view.endEditing(true)
+    }
+    
+    private func setupDismissKeyboardGestureRecognizer() {
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard(_:)))
+        view.addGestureRecognizer(tapRecognizer)
+    }
+    
+    @objc func dismissKeyboard(_ recognizer: UITapGestureRecognizer) {
+        view.endEditing(true)
+    }
+    
+    //MARK: ImageView
+    private func setupPlayerImageView()  {
+        playerImageView.image = UIImage(
+            systemName: LocalConstants.imagePlaceholderName
+        )?.imageWith(newSize: CGSize(width: Constants.width200,
+                                     height: Constants.width200))
+        
+        playerImageView.tintColor = .black
+        //TODO: delete or implement
+//        playerImageView.layer.borderColor = UIColor.black.cgColor
+//        playerImageView.layer.borderWidth = 2
+//        playerImageView.layer.cornerRadius = (playerImageView.image?.size.height)! / 2
+//        playerImageView.clipsToBounds = true
+        playerImageView.contentMode = .scaleAspectFit
+        setPlayerImageViewConstaraints()
+    }
+    
+    private func setPlayerImageViewConstaraints() {
+        playerImageView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.addArrangedSubview(playerImageView)
+    }
+    
+    // MARK: Segmented Controls
+    private func setupSegmentedControlsStackView() {
+        segmentedControlsStackView.axis = .vertical
+        segmentedControlsStackView.alignment = .center
+        segmentedControlsStackView.distribution = .fillEqually
+        segmentedControlsStackView.spacing = Constants.spacing20
+        segmentedControlsStackView.backgroundColor = .systemYellow
+        segmentedControlsStackView.isLayoutMarginsRelativeArrangement = true
+        setupSegmentedControlsStackViewConstraints()
+    }
+    
+    private func setupSegmentedControlsStackViewConstraints() {
+        segmentedControlsStackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.addArrangedSubview(segmentedControlsStackView)
+        
+        NSLayoutConstraint.activate([
+            segmentedControlsStackView.leadingAnchor.constraint(equalTo: stackView.leadingAnchor,
+                                                   constant: Constants.constraint20),
+            segmentedControlsStackView.trailingAnchor.constraint(equalTo: stackView.trailingAnchor,
+                                                    constant: Constants.constraintMinus20),
+            segmentedControlsStackView.bottomAnchor.constraint(equalTo: stackView.bottomAnchor,
+                                                    constant: Constants.constraintMinus20)
+        ])
+    }
+    
+    private func setupCarSegmentedControl() {
+        carSegmentedControl.backgroundColor = .systemYellow
+        carSegmentedControl.selectedSegmentTintColor = .yellow
+        carSegmentedControl.selectedSegmentIndex = LocalConstants.selectedCarSegment
+        carSegmentedControl.addTarget(self, action: #selector(carSegmentedControlDidChange),
+                                      for: .valueChanged)
+        setupCarSegmentedControlConstraints()
+    }
+    
+    private func setupCarSegmentedControlConstraints() {
+        carSegmentedControl.translatesAutoresizingMaskIntoConstraints = false
+        segmentedControlsStackView.addArrangedSubview(carSegmentedControl)
+        
+        NSLayoutConstraint.activate([
+            carSegmentedControl.leadingAnchor.constraint(equalTo: stackView.leadingAnchor,
+                                                   constant: Constants.constraint20),
+            carSegmentedControl.trailingAnchor.constraint(equalTo: stackView.trailingAnchor,
+                                                    constant: Constants.constraintMinus20)
+        ])
+    }
+    
+    @objc private func carSegmentedControlDidChange(_ segmentedControl: UISegmentedControl) {
+        print(#function)
+        print(segmentedControl.selectedSegmentIndex)
+        
+        switch segmentedControl.selectedSegmentIndex {
+        case 0:
+            segmentedControl.selectedSegmentTintColor = .systemRed
+        case 2:
+            segmentedControl.selectedSegmentTintColor = .systemGreen
+        default:
+            segmentedControl.selectedSegmentTintColor = .yellow
+        }
+    }
+    
+    private func setupObstaclesSegmentedControl() {
+        obstaclesSegmentedControl.backgroundColor = .systemYellow
+        obstaclesSegmentedControl.selectedSegmentTintColor = UIColor(white: LocalConstants.selectedSegmentWhite,
+                                                                     alpha: LocalConstants.selectedSegmentAlfa)
+        obstaclesSegmentedControl.selectedSegmentIndex = LocalConstants.selectedCarSegment
+        obstaclesSegmentedControl.addTarget(self, action: #selector(obstaclesSegmentedControlDidChange),
+                                      for: .valueChanged)
+        setupObstaclesSegmentedControlConstraints()
+    }
+    
+    private func setupObstaclesSegmentedControlConstraints() {
+        obstaclesSegmentedControl.translatesAutoresizingMaskIntoConstraints = false
+        segmentedControlsStackView.addArrangedSubview(obstaclesSegmentedControl)
+        
+        NSLayoutConstraint.activate([
+            obstaclesSegmentedControl.leadingAnchor.constraint(equalTo: stackView.leadingAnchor,
+                                                   constant: Constants.constraint20),
+            obstaclesSegmentedControl.trailingAnchor.constraint(equalTo: stackView.trailingAnchor,
+                                                    constant: Constants.constraintMinus20)
+        ])
+    }
+    
+    @objc private func obstaclesSegmentedControlDidChange(_ segmentedControl: UISegmentedControl) {
+        print(#function)
+        print(segmentedControl.selectedSegmentIndex)
+    }
+    
+    private func setupSpeedSegmentedControl() {
+        speedSegmentedControl.backgroundColor = .systemYellow
+        speedSegmentedControl.selectedSegmentTintColor = UIColor(white: LocalConstants.selectedSegmentWhite,
+                                                                     alpha: LocalConstants.selectedSegmentAlfa)
+        speedSegmentedControl.selectedSegmentIndex = LocalConstants.selectedCarSegment
+        speedSegmentedControl.addTarget(self, action: #selector(speedSegmentedControlDidChange),
+                                      for: .valueChanged)
+        setupSpeedSegmentedControlConstraints()
+    }
+    
+    private func setupSpeedSegmentedControlConstraints() {
+        obstaclesSegmentedControl.translatesAutoresizingMaskIntoConstraints = false
+        segmentedControlsStackView.addArrangedSubview(speedSegmentedControl)
+        
+        NSLayoutConstraint.activate([
+            speedSegmentedControl.leadingAnchor.constraint(equalTo: stackView.leadingAnchor,
+                                                   constant: Constants.constraint20),
+            speedSegmentedControl.trailingAnchor.constraint(equalTo: stackView.trailingAnchor,
+                                                    constant: Constants.constraintMinus20)
+        ])
+    }
+    
+    @objc private func speedSegmentedControlDidChange(_ segmentedControl: UISegmentedControl) {
+        print(#function)
+        print(segmentedControl.selectedSegmentIndex)
     }
 }

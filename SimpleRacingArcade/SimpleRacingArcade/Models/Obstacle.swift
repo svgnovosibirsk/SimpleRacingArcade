@@ -7,8 +7,12 @@
 
 import Foundation
 
-enum Obstacle {
+enum Obstacle: CaseIterable {
     case car
     case block
     case water
+    
+    static func obstacles() -> [String] {
+        return ["Car", "Block", "Water"]
+    }
 }
