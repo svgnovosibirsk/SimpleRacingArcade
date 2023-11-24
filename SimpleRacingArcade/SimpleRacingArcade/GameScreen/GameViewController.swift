@@ -75,9 +75,25 @@ final class GameViewController: UIViewController {
         return cactus
     }()
     
+    let obstacle: UIView  = {
+        let obstacle = UIView()
+        obstacle.frame = CGRect(origin: .zero, size: CGSize(width: 50, height: 50))
+        obstacle.backgroundColor = .systemBlue
+        obstacle.translatesAutoresizingMaskIntoConstraints = false
+        return obstacle
+    }()
+    
+    let obstacle2: UIView  = {
+        let obstacle = UIView()
+        obstacle.frame = CGRect(origin: .zero, size: CGSize(width: 50, height: 50))
+        obstacle.backgroundColor = .systemBlue
+        obstacle.translatesAutoresizingMaskIntoConstraints = false
+        return obstacle
+    }()
+    
     let racingCar: UIView  = {
         let car = UIView()
-        car.frame = CGRect(origin: .zero, size: CGSize(width: 100, height: 150))
+        car.frame = CGRect(origin: .zero, size: CGSize(width: 60, height: 80))
         car.backgroundColor = .systemRed
         car.translatesAutoresizingMaskIntoConstraints = false
         return car
@@ -128,12 +144,19 @@ final class GameViewController: UIViewController {
         UIView.animate(withDuration: 6, delay: 0, options: [.curveLinear, .repeat]) {
             self.rightCactus.frame.origin = CGPoint(x: 320, y: 850)
         }
+        
+        // TODO: random position x
+        UIView.animate(withDuration: 6, delay: 0, options: [.curveLinear, .repeat]) {
+            self.obstacle.frame.origin = CGPoint(x: 150, y: 1150)
+            self.obstacle2.frame.origin = CGPoint(x: 250, y: 850)
+        }
     }
     
     private func setupRoadScreen() {
         setupCenterStrip()
         setupRoadSides()
         setupCactuses()
+        setupObstacle()
         setupRacingCar()
         setupButtons()
     }
@@ -163,6 +186,14 @@ final class GameViewController: UIViewController {
         
         view.addSubview(rightCactus)
         rightCactus.frame.origin = CGPoint(x: 320, y: -150)
+    }
+    
+    private func setupObstacle() {
+        view.addSubview(obstacle)
+        obstacle.frame.origin = CGPoint(x: 150, y: -50)
+        
+        view.addSubview(obstacle2)
+        obstacle2.frame.origin = CGPoint(x: 250, y: -350)
     }
     
     private func setupRacingCar() {
