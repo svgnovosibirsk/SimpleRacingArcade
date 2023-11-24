@@ -9,11 +9,97 @@ import UIKit
 
 final class GameViewController: UIViewController {
 
+    //TODO: position all views via constraints NOT frames
+    //TODO: put center strips in one superview
+    let centerStrip: UIView  = {
+        let strip = UIView()
+        strip.frame = CGRect(origin: .zero, size: CGSize(width: 10, height: 100))
+        strip.backgroundColor = .white
+        strip.translatesAutoresizingMaskIntoConstraints = false
+        return strip
+    }()
+    
+    let centerStrip2: UIView  = {
+        let strip = UIView()
+        strip.frame = CGRect(origin: .zero, size: CGSize(width: 10, height: 100))
+        strip.backgroundColor = .white
+        strip.translatesAutoresizingMaskIntoConstraints = false
+        return strip
+    }()
+    
+    let centerStrip3: UIView  = {
+        let strip = UIView()
+        strip.frame = CGRect(origin: .zero, size: CGSize(width: 10, height: 100))
+        strip.backgroundColor = .white
+        strip.translatesAutoresizingMaskIntoConstraints = false
+        return strip
+    }()
+    
+    let leftRoadSide: UIView  = {
+        let roadSide = UIView()
+        roadSide.frame = CGRect(origin: .zero, size: CGSize(width: 100, height: 1000))
+        roadSide.backgroundColor = .systemYellow
+        roadSide.translatesAutoresizingMaskIntoConstraints = false
+        return roadSide
+    }()
+    
+    let rightRoadSide: UIView  = {
+        let roadSide = UIView()
+        roadSide.frame = CGRect(origin: CGPoint(x: 300, y: 0), size: CGSize(width: 100, height: 1000))
+        roadSide.backgroundColor = .systemYellow
+        roadSide.translatesAutoresizingMaskIntoConstraints = false
+        return roadSide
+    }()
+    
+    let racingCar: UIView  = {
+        let car = UIView()
+        car.frame = CGRect(origin: .zero, size: CGSize(width: 100, height: 150))
+        car.backgroundColor = .systemRed
+        car.translatesAutoresizingMaskIntoConstraints = false
+        return car
+    }()
+    
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         title = Constants.gameScreenTitle
-        view.backgroundColor = .systemRed
+        view.backgroundColor = .systemGray3
+       setupRoadScreen()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        UIView.animate(withDuration: 3, delay: 0, options: [.curveLinear, .repeat]) {
+            self.centerStrip.frame.origin = CGPoint(x: self.view.center.x, y: 200)
+            self.centerStrip2.frame.origin = CGPoint(x: self.view.center.x, y: 500)
+            self.centerStrip3.frame.origin = CGPoint(x: self.view.center.x, y: 800)
+        }
+    }
+    
+    private func setupRoadScreen() {
+        setupCenterStrip()
+        setupRoadSides()
+        setupRacingCar()
+    }
+    
+    private func setupCenterStrip() {
+        view.addSubview(centerStrip)
+        centerStrip.frame.origin = CGPoint(x: view.center.x, y: -100)
+        
+        view.addSubview(centerStrip2)
+        centerStrip2.frame.origin = CGPoint(x: view.center.x, y: 200)
+        
+        view.addSubview(centerStrip3)
+        centerStrip3.frame.origin = CGPoint(x: view.center.x, y: 500)
+    }
+    
+    private func setupRoadSides() {
+        view.addSubview(leftRoadSide)
+        view.addSubview(rightRoadSide)
+    }
+    
+    private func setupRacingCar() {
+        view.addSubview(racingCar)
+        racingCar.frame.origin = CGPoint(x: view.center.x - 50, y: 700)
     }
 }
