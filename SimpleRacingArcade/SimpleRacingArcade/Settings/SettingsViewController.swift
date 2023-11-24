@@ -172,7 +172,7 @@ final class SettingsViewController: UIViewController {
     
     private func setupSegmentedControlsStackViewConstraints() {
         segmentedControlsStackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.addSubview(segmentedControlsStackView)
+        stackView.addArrangedSubview(segmentedControlsStackView)
         
         NSLayoutConstraint.activate([
             segmentedControlsStackView.leadingAnchor.constraint(equalTo: stackView.leadingAnchor,
