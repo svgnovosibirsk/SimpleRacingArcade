@@ -83,6 +83,29 @@ final class GameViewController: UIViewController {
         return car
     }()
     
+    // TODO: custom view to buttons
+    let leftButton: UIButton  = {
+        let button = UIButton()
+        button.frame = CGRect(origin: .zero, size: CGSize(width: 100, height: 100))
+        button.setTitle("L", for: .normal)
+        button.setTitleColor(.systemGray2, for: .highlighted)
+        button.backgroundColor = UIColor(white: 0, alpha: 0.4)
+        button.layer.cornerRadius = button.frame.width / 2
+        //button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    let rightButton: UIButton  = {
+        let button = UIButton()
+        button.frame = CGRect(origin: .zero, size: CGSize(width: 100, height: 100))
+        button.setTitle("R", for: .normal)
+        button.setTitleColor(.systemGray2, for: .highlighted)
+        button.backgroundColor = UIColor(white: 0, alpha: 0.4)
+        button.layer.cornerRadius = button.frame.width / 2
+        //button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -112,7 +135,7 @@ final class GameViewController: UIViewController {
         setupRoadSides()
         setupCactuses()
         setupRacingCar()
-        
+        setupButtons()
     }
     
     private func setupCenterStrip() {
@@ -144,6 +167,35 @@ final class GameViewController: UIViewController {
     
     private func setupRacingCar() {
         view.addSubview(racingCar)
-        racingCar.frame.origin = CGPoint(x: view.center.x - 50, y: 700)
+        racingCar.frame.origin = CGPoint(x: view.center.x - 50, y: 600)
+    }
+    
+    private func setupButtons() {
+        view.addSubview(leftButton)
+        leftButton.frame.origin = CGPoint(x: 50, y: 700)
+        leftButton.addTarget(self, action: #selector(leftButtonDidPress), for: .touchDown)
+        
+        view.addSubview(rightButton)
+        rightButton.frame.origin = CGPoint(x: 250, y: 700)
+        rightButton.addTarget(self, action: #selector(rightButtonDidPress), for: .touchDown)
+    }
+    
+    // TODO: limit car position by screen frame
+    // TODO: make continious move when button is pressed
+    @objc func leftButtonDidPress() {
+        var carPositionX = racingCar.frame.origin.x
+        carPositionX -= 10
+        UIView.animate(withDuration: 0.3) {
+            self.racingCar.frame.origin.x = carPositionX
+        }
+       
+    }
+    
+    @objc func rightButtonDidPress() {
+        var carPositionX = racingCar.frame.origin.x
+        carPositionX += 10
+        UIView.animate(withDuration: 0.3) {
+            self.racingCar.frame.origin.x = carPositionX
+        }
     }
 }
