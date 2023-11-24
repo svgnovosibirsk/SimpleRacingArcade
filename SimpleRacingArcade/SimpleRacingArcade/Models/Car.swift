@@ -7,8 +7,12 @@
 
 import UIKit
 
-enum Car {
+enum Car: CaseIterable {
     case red
     case yellow
     case green
+    
+    static func cars() -> [String] {
+        return ["Red", "Yellow", "Green"]
+    }
 }
