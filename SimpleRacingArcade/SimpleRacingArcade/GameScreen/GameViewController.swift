@@ -8,7 +8,17 @@
 import UIKit
 
 final class GameViewController: UIViewController {
+    
+    //MARK: - Constants
+    private enum LocalConstants {
+        static let left = "L"
+        static let right = "R"
+    }
+    
+    //MARK: - Properties
+    var obstacalesTimer: Timer?
 
+    //MARK: - Views
     //TODO: position all views via constraints NOT frames
     //TODO: put center strips in one superview
     let centerStrip: UIView  = {
@@ -103,7 +113,7 @@ final class GameViewController: UIViewController {
     let leftButton: UIButton  = {
         let button = UIButton()
         button.frame = CGRect(origin: .zero, size: CGSize(width: 100, height: 100))
-        button.setTitle("L", for: .normal)
+        button.setTitle(LocalConstants.left, for: .normal)
         button.setTitleColor(.systemGray2, for: .highlighted)
         button.backgroundColor = UIColor(white: 0, alpha: 0.4)
         button.layer.cornerRadius = button.frame.width / 2
@@ -114,7 +124,7 @@ final class GameViewController: UIViewController {
     let rightButton: UIButton  = {
         let button = UIButton()
         button.frame = CGRect(origin: .zero, size: CGSize(width: 100, height: 100))
-        button.setTitle("R", for: .normal)
+        button.setTitle(LocalConstants.right, for: .normal)
         button.setTitleColor(.systemGray2, for: .highlighted)
         button.backgroundColor = UIColor(white: 0, alpha: 0.4)
         button.layer.cornerRadius = button.frame.width / 2
@@ -145,13 +155,16 @@ final class GameViewController: UIViewController {
             self.rightCactus.frame.origin = CGPoint(x: 320, y: 850)
         }
         
-        // TODO: random position x
-        UIView.animate(withDuration: 6, delay: 0, options: [.curveLinear, .repeat]) {
-            self.obstacle.frame.origin = CGPoint(x: 150, y: 1150)
-            self.obstacle2.frame.origin = CGPoint(x: 250, y: 850)
-        }
+        setupObstaclesTimer()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        obstacalesTimer?.invalidate()
+    }
+    
+    //MARK: - Flow
     private func setupRoadScreen() {
         setupCenterStrip()
         setupRoadSides()
@@ -227,6 +240,27 @@ final class GameViewController: UIViewController {
         carPositionX += 10
         UIView.animate(withDuration: 0.3) {
             self.racingCar.frame.origin.x = carPositionX
+        }
+    }
+    
+    private func setupObstaclesTimer() {
+        obstacalesTimer = Timer.scheduledTimer(timeInterval: 12,
+                                         target: self,
+                                         selector: #selector(generateObstacles),
+                                         userInfo: nil,
+                                         repeats: true)
+    }
+    
+    @objc func generateObstacles() {
+        let randomX1 = Int.random(in: 20...250)
+        obstacle.frame.origin = CGPoint(x: randomX1, y: -50)
+        
+        let randomX2 = Int.random(in: 20...250)
+        obstacle2.frame.origin = CGPoint(x: randomX2, y: -350)
+        
+        UIView.animate(withDuration: 12, delay: 0, options: [.curveLinear]) {
+            self.obstacle.frame.origin = CGPoint(x: randomX1, y: 1150)
+            self.obstacle2.frame.origin = CGPoint(x: randomX2, y: 850)
         }
     }
 }
