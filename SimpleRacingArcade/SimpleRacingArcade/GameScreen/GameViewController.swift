@@ -23,6 +23,18 @@ final class GameViewController: UIViewController {
     var isScoreOneMonitoring = true
     var isScoreTwoMonitoring = true
     
+    var score = 0 {
+        didSet {
+            title = "Score: \(score)"
+        }
+    }
+    
+    var isGameOver = false {
+        didSet {
+            gameOver()
+        }
+    }
+    
     //MARK: - Views
     //TODO: position all views via constraints NOT frames
     //TODO: put center strips in one superview
@@ -141,12 +153,14 @@ final class GameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = Constants.gameScreenTitle
+        title = "Score: \(score)"
         view.backgroundColor = .systemGray3
         setupRoadScreen()
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        enableButtons()
+        
         UIView.animate(withDuration: 3, delay: 0, options: [.curveLinear, .repeat]) {
             self.centerStrip.frame.origin = CGPoint(x: self.view.center.x, y: 200)
             self.centerStrip2.frame.origin = CGPoint(x: self.view.center.x, y: 500)
@@ -275,7 +289,7 @@ final class GameViewController: UIViewController {
     }
     
     private func setupCollisionTimer() {
-        collisionTimer = Timer.scheduledTimer(timeInterval: 0.3,
+        collisionTimer = Timer.scheduledTimer(timeInterval: 1,
                                          target: self,
                                          selector: #selector(monitorObstaclesCollisions),
                                          userInfo: nil,
@@ -284,25 +298,25 @@ final class GameViewController: UIViewController {
     
     @objc func monitorObstaclesCollisions() {
         if isViewIntersecting(racingCar) {
-            print("GAME OVER!!!") // TEST
+            isGameOver = true
         }
         
         //TODO: put all obstacles in array and iterate over array
   
         let obstacleFrame = obstacle.layer.presentation()?.frame
         if (CGRectIntersectsRect(obstacleFrame!, racingCar.frame)) {
-            print("GAME OVER!!! from Obstacle") // TEST
+            isGameOver = true
         }
         
         let obstacleFrame2 = obstacle2.layer.presentation()?.frame
         if (CGRectIntersectsRect(obstacleFrame2!, racingCar.frame)) {
-            print("GAME OVER!!! from Obstacle") //  TEST
+            isGameOver = true
         }
     }
     
     //TODO: put collision and score methods in one timer
     private func setupScoreTimer() {
-        scoreTimer = Timer.scheduledTimer(timeInterval: 0.3,
+        scoreTimer = Timer.scheduledTimer(timeInterval: 0.5,
                                          target: self,
                                          selector: #selector(monitorObstaclesAvoiding),
                                          userInfo: nil,
@@ -314,12 +328,12 @@ final class GameViewController: UIViewController {
         let obstacleFrame2 = obstacle2.layer.presentation()?.frame
         
         if isScoreOneMonitoring && (obstacleFrame?.origin.y)! > racingCar.frame.origin.y + racingCar.frame.height{
-            print("PLUS ONE") // TEST
+            score += 1
             isScoreOneMonitoring = false
         }
         
         if isScoreTwoMonitoring && (obstacleFrame2?.origin.y)! > racingCar.frame.origin.y + racingCar.frame.height {
-            print("PLUS ONE") // TEST
+            score += 1
             isScoreTwoMonitoring = false
         }
     }
@@ -334,5 +348,51 @@ final class GameViewController: UIViewController {
             }
         }
         return false
+    }
+    
+    // TODO: put unconnected methods in extensions Ex: GameViewController+GameOver
+    private func gameOver() {
+        isScoreOneMonitoring = false
+        isScoreTwoMonitoring = false
+        disableButtons()
+        showGameOverAlert()
+    }
+    
+    private func resumeGame() {
+        score = 0
+        isScoreOneMonitoring = true
+        isScoreTwoMonitoring = true
+        enableButtons()
+        resetCarAndObstaclesPositions()
+    }
+    
+    private func resetCarAndObstaclesPositions() {
+        racingCar.frame.origin = CGPoint(x: view.center.x - 50, y: 600)
+        obstacle.frame.origin = CGPoint(x: 150, y: -50)
+        obstacle2.frame.origin = CGPoint(x: 250, y: -350)
+    }
+    
+    private func disableButtons() {
+        leftButton.isEnabled = false
+        leftButton.alpha = 0.1
+        rightButton.isEnabled = false
+        rightButton.alpha = 0.1
+    }
+    
+    private func enableButtons() {
+        leftButton.isEnabled = true
+        leftButton.alpha = 1
+        rightButton.isEnabled = true
+        rightButton.alpha = 1
+    }
+    
+    private func showGameOverAlert() {
+        let alert = UIAlertController(title: "GAME OVER", message: nil, preferredStyle: .alert)
+        let action = UIAlertAction(title: "Resume", style: .default) { [weak self] action in
+            guard let self = self else { return }
+            self.resumeGame()
+        }
+        alert.addAction(action)
+        present(alert, animated: true)
     }
 }
