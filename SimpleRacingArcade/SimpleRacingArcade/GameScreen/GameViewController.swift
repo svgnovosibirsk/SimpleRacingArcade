@@ -18,7 +18,11 @@ final class GameViewController: UIViewController {
     //MARK: - Properties
     var obstacalesTimer: Timer?
     var collisionTimer: Timer?
-
+    //TODO: put collision and score methods in one timer
+    var scoreTimer: Timer?
+    var isScoreOneMonitoring = true
+    var isScoreTwoMonitoring = true
+    
     //MARK: - Views
     //TODO: position all views via constraints NOT frames
     //TODO: put center strips in one superview
@@ -158,6 +162,7 @@ final class GameViewController: UIViewController {
         
         setupObstaclesTimer()
         setupCollisionTimer()
+        setupScoreTimer()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -263,6 +268,9 @@ final class GameViewController: UIViewController {
         UIView.animate(withDuration: 12, delay: 0, options: [.curveLinear]) {
             self.obstacle.frame.origin = CGPoint(x: randomX1, y: 1150)
             self.obstacle2.frame.origin = CGPoint(x: randomX2, y: 850)
+        } completion: { isDone in
+            self.isScoreOneMonitoring = true
+            self.isScoreTwoMonitoring = true
         }
     }
     
@@ -289,6 +297,30 @@ final class GameViewController: UIViewController {
         let obstacleFrame2 = obstacle2.layer.presentation()?.frame
         if (CGRectIntersectsRect(obstacleFrame2!, racingCar.frame)) {
             print("GAME OVER!!! from Obstacle") //  TEST
+        }
+    }
+    
+    //TODO: put collision and score methods in one timer
+    private func setupScoreTimer() {
+        scoreTimer = Timer.scheduledTimer(timeInterval: 0.3,
+                                         target: self,
+                                         selector: #selector(monitorObstaclesAvoiding),
+                                         userInfo: nil,
+                                         repeats: true)
+    }
+    
+    @objc func monitorObstaclesAvoiding() {
+        let obstacleFrame = obstacle.layer.presentation()?.frame
+        let obstacleFrame2 = obstacle2.layer.presentation()?.frame
+        
+        if isScoreOneMonitoring && (obstacleFrame?.origin.y)! > racingCar.frame.origin.y + racingCar.frame.height{
+            print("PLUS ONE") // TEST
+            isScoreOneMonitoring = false
+        }
+        
+        if isScoreTwoMonitoring && (obstacleFrame2?.origin.y)! > racingCar.frame.origin.y + racingCar.frame.height {
+            print("PLUS ONE") // TEST
+            isScoreTwoMonitoring = false
         }
     }
     
