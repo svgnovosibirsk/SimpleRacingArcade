@@ -17,6 +17,7 @@ final class GameViewController: UIViewController {
     
     //MARK: - Properties
     var obstacalesTimer: Timer?
+    var collisionTimer: Timer?
 
     //MARK: - Views
     //TODO: position all views via constraints NOT frames
@@ -138,7 +139,7 @@ final class GameViewController: UIViewController {
         
         title = Constants.gameScreenTitle
         view.backgroundColor = .systemGray3
-       setupRoadScreen()
+        setupRoadScreen()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -156,12 +157,14 @@ final class GameViewController: UIViewController {
         }
         
         setupObstaclesTimer()
+        setupCollisionTimer()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         obstacalesTimer?.invalidate()
+        collisionTimer?.invalidate()
     }
     
     //MARK: - Flow
@@ -232,7 +235,6 @@ final class GameViewController: UIViewController {
         UIView.animate(withDuration: 0.3) {
             self.racingCar.frame.origin.x = carPositionX
         }
-       
     }
     
     @objc func rightButtonDidPress() {
@@ -262,5 +264,43 @@ final class GameViewController: UIViewController {
             self.obstacle.frame.origin = CGPoint(x: randomX1, y: 1150)
             self.obstacle2.frame.origin = CGPoint(x: randomX2, y: 850)
         }
+    }
+    
+    private func setupCollisionTimer() {
+        collisionTimer = Timer.scheduledTimer(timeInterval: 0.3,
+                                         target: self,
+                                         selector: #selector(monitorObstaclesCollisions),
+                                         userInfo: nil,
+                                         repeats: true)
+    }
+    
+    @objc func monitorObstaclesCollisions() {
+        if isViewIntersecting(racingCar) {
+            print("GAME OVER!!!") // TEST
+        }
+        
+        //TODO: put all obstacles in array and iterate over array
+  
+        let obstacleFrame = obstacle.layer.presentation()?.frame
+        if (CGRectIntersectsRect(obstacleFrame!, racingCar.frame)) {
+            print("GAME OVER!!! from Obstacle") // TEST
+        }
+        
+        let obstacleFrame2 = obstacle2.layer.presentation()?.frame
+        if (CGRectIntersectsRect(obstacleFrame2!, racingCar.frame)) {
+            print("GAME OVER!!! from Obstacle") //  TEST
+        }
+    }
+    
+    private func isViewIntersecting(_ viewToCheck: UIView) -> Bool {
+        let allSubViews = self.view!.subviews
+        for theView in allSubViews {
+            if (!(viewToCheck .isEqual(theView))) {
+                if (CGRectIntersectsRect(viewToCheck.frame, theView.frame)) {
+                    return true
+                }
+            }
+        }
+        return false
     }
 }
