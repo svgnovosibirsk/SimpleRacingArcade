@@ -22,6 +22,9 @@ final class GameViewController: UIViewController {
     var scoreTimer: Timer?
     var isScoreOneMonitoring = true
     var isScoreTwoMonitoring = true
+    var screenWidth: CGFloat = 0
+    var screenHeight: CGFloat = 0
+    var tenthOfScreenHeight : CGFloat = 0
     
     var score = 0 {
         didSet {
@@ -64,7 +67,6 @@ final class GameViewController: UIViewController {
     
     let leftRoadSide: UIView  = {
         let roadSide = UIView()
-        roadSide.frame = CGRect(origin: .zero, size: CGSize(width: 100, height: 1000))
         roadSide.backgroundColor = .systemYellow
         roadSide.translatesAutoresizingMaskIntoConstraints = false
         return roadSide
@@ -72,7 +74,6 @@ final class GameViewController: UIViewController {
     
     let rightRoadSide: UIView  = {
         let roadSide = UIView()
-        roadSide.frame = CGRect(origin: CGPoint(x: 300, y: 0), size: CGSize(width: 100, height: 1000))
         roadSide.backgroundColor = .systemYellow
         roadSide.translatesAutoresizingMaskIntoConstraints = false
         return roadSide
@@ -80,7 +81,6 @@ final class GameViewController: UIViewController {
     
     let leftCactus: UIView  = {
         let cactus = UIView()
-        cactus.frame = CGRect(origin: .zero, size: CGSize(width: 50, height: 90))
         cactus.backgroundColor = .systemGreen
         cactus.translatesAutoresizingMaskIntoConstraints = false
         return cactus
@@ -88,7 +88,6 @@ final class GameViewController: UIViewController {
     
     let leftCactus2: UIView  = {
         let cactus = UIView()
-        cactus.frame = CGRect(origin: .zero, size: CGSize(width: 50, height: 90))
         cactus.backgroundColor = .systemGreen
         cactus.translatesAutoresizingMaskIntoConstraints = false
         return cactus
@@ -96,7 +95,6 @@ final class GameViewController: UIViewController {
     
     let rightCactus: UIView  = {
         let cactus = UIView()
-        cactus.frame = CGRect(origin: .zero, size: CGSize(width: 50, height: 90))
         cactus.backgroundColor = .systemGreen
         cactus.translatesAutoresizingMaskIntoConstraints = false
         return cactus
@@ -104,7 +102,7 @@ final class GameViewController: UIViewController {
     
     let obstacle: UIView  = {
         let obstacle = UIView()
-        obstacle.frame = CGRect(origin: .zero, size: CGSize(width: 50, height: 50))
+        obstacle.frame = CGRect(origin: .zero, size: CGSize(width: 40, height: 40))
         obstacle.backgroundColor = .systemBlue
         obstacle.translatesAutoresizingMaskIntoConstraints = false
         return obstacle
@@ -112,7 +110,7 @@ final class GameViewController: UIViewController {
     
     let obstacle2: UIView  = {
         let obstacle = UIView()
-        obstacle.frame = CGRect(origin: .zero, size: CGSize(width: 50, height: 50))
+        obstacle.frame = CGRect(origin: .zero, size: CGSize(width: 40, height: 40))
         obstacle.backgroundColor = .systemBlue
         obstacle.translatesAutoresizingMaskIntoConstraints = false
         return obstacle
@@ -120,7 +118,7 @@ final class GameViewController: UIViewController {
     
     let racingCar: UIView  = {
         let car = UIView()
-        car.frame = CGRect(origin: .zero, size: CGSize(width: 60, height: 80))
+        car.frame = CGRect(origin: .zero, size: CGSize(width: 50, height: 60))
         car.backgroundColor = .systemRed
         car.translatesAutoresizingMaskIntoConstraints = false
         return car
@@ -129,23 +127,25 @@ final class GameViewController: UIViewController {
     // TODO: custom view to buttons
     let leftButton: UIButton  = {
         let button = UIButton()
-        button.frame = CGRect(origin: .zero, size: CGSize(width: 100, height: 100))
+        //button.frame = CGRect(origin: .zero, size: CGSize(width: 100, height: 100))
         button.setTitle(LocalConstants.left, for: .normal)
         button.setTitleColor(.systemGray2, for: .highlighted)
         button.backgroundColor = UIColor(white: 0, alpha: 0.4)
         button.layer.cornerRadius = button.frame.width / 2
-        //button.translatesAutoresizingMaskIntoConstraints = false
+        button.layer.masksToBounds = true
+        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
     let rightButton: UIButton  = {
         let button = UIButton()
-        button.frame = CGRect(origin: .zero, size: CGSize(width: 100, height: 100))
+        //button.frame = CGRect(origin: .zero, size: CGSize(width: 100, height: 100))
         button.setTitle(LocalConstants.right, for: .normal)
         button.setTitleColor(.systemGray2, for: .highlighted)
         button.backgroundColor = UIColor(white: 0, alpha: 0.4)
         button.layer.cornerRadius = button.frame.width / 2
-        //button.translatesAutoresizingMaskIntoConstraints = false
+        button.layer.masksToBounds = true
+        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
@@ -155,23 +155,38 @@ final class GameViewController: UIViewController {
         
         title = "Score: \(score)"
         view.backgroundColor = .systemGray3
+        screenWidth = view.bounds.width
+        screenHeight = view.bounds.height
+        tenthOfScreenHeight = screenHeight / 10
         setupRoadScreen()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         enableButtons()
         
-        UIView.animate(withDuration: 3, delay: 0, options: [.curveLinear, .repeat]) {
-            self.centerStrip.frame.origin = CGPoint(x: self.view.center.x, y: 200)
-            self.centerStrip2.frame.origin = CGPoint(x: self.view.center.x, y: 500)
-            self.centerStrip3.frame.origin = CGPoint(x: self.view.center.x, y: 800)
+        UIView.animate(withDuration: 6, delay: 0, options: [.curveLinear, .repeat]) {
+//            self.centerStrip.frame.origin = CGPoint(x: self.view.center.x - 5, y: 200)
+//            self.centerStrip2.frame.origin = CGPoint(x: self.view.center.x - 5, y: 500)
+//            self.centerStrip3.frame.origin = CGPoint(x: self.view.center.x - 5, y: 800)
             
-            self.leftCactus.frame.origin = CGPoint(x: 20, y: 450)
-            self.leftCactus2.frame.origin = CGPoint(x: 20, y: 850)
+            self.centerStrip.frame.origin = CGPoint(x: self.view.center.x - 5, y: self.tenthOfScreenHeight * 4)
+            self.centerStrip2.frame.origin = CGPoint(x: self.view.center.x - 5, y: self.tenthOfScreenHeight * 7)
+            self.centerStrip3.frame.origin = CGPoint(x: self.view.center.x - 5, y: self.tenthOfScreenHeight * 10)
+            
+//            self.leftCactus.frame.origin = CGPoint(x: 20, y: 450)
+//            self.leftCactus2.frame.origin = CGPoint(x: 20, y: 850)
+            
+            self.leftCactus.frame.origin.y = self.screenHeight + 50
+           // self.leftCactus2.frame.origin.y = self.screenHeight + 50
         }
         
-        UIView.animate(withDuration: 6, delay: 0, options: [.curveLinear, .repeat]) {
-            self.rightCactus.frame.origin = CGPoint(x: 320, y: 850)
+        UIView.animate(withDuration: 12, delay: 0, options: [.curveLinear, .repeat]) {
+            self.leftCactus.frame.origin.y = self.screenHeight + 50
+        }
+        
+        UIView.animate(withDuration: 10, delay: 0, options: [.curveLinear, .repeat]) {
+            //self.rightCactus.frame.origin = CGPoint(x: 320, y: 850)
+            self.rightCactus.frame.origin.y = self.screenHeight + 200
         }
         
         setupObstaclesTimer()
@@ -198,29 +213,58 @@ final class GameViewController: UIViewController {
     
     private func setupCenterStrip() {
         view.addSubview(centerStrip)
-        centerStrip.frame.origin = CGPoint(x: view.center.x, y: -100)
+        //centerStrip.frame.origin = CGPoint(x: view.center.x - 5, y: -100)
+        centerStrip.frame.origin = CGPoint(x: view.center.x - 5, y: -tenthOfScreenHeight)
         
         view.addSubview(centerStrip2)
-        centerStrip2.frame.origin = CGPoint(x: view.center.x, y: 200)
+        //centerStrip2.frame.origin = CGPoint(x: view.center.x - 5, y: 200)
+        centerStrip2.frame.origin = CGPoint(x: view.center.x - 5, y: tenthOfScreenHeight * 4)
         
         view.addSubview(centerStrip3)
-        centerStrip3.frame.origin = CGPoint(x: view.center.x, y: 500)
+        //centerStrip3.frame.origin = CGPoint(x: view.center.x - 5, y: 500)
+        centerStrip3.frame.origin = CGPoint(x: view.center.x - 5, y: tenthOfScreenHeight * 7)
     }
     
     private func setupRoadSides() {
         view.addSubview(leftRoadSide)
         view.addSubview(rightRoadSide)
+        
+        NSLayoutConstraint.activate([
+            leftRoadSide.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            leftRoadSide.widthAnchor.constraint(equalToConstant: 80),
+            leftRoadSide.heightAnchor.constraint(equalToConstant: 1000),
+            
+            rightRoadSide.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            rightRoadSide.widthAnchor.constraint(equalToConstant: 80),
+            rightRoadSide.heightAnchor.constraint(equalToConstant: 1000),
+        ])
     }
     
     private func setupCactuses() {
         view.addSubview(leftCactus)
-        leftCactus.frame.origin = CGPoint(x: 20, y: -50)
+        leftCactus.frame.origin.y = -50
         
-        view.addSubview(leftCactus2)
-        leftCactus2.frame.origin = CGPoint(x: 20, y: 450)
+        //view.addSubview(leftCactus2)
+        //leftCactus2.frame.origin = CGPoint(x: 20, y: 450)
+        //leftCactus2.frame.origin.y = screenHeight / 2
+        //leftCactus2.backgroundColor = .blue
         
         view.addSubview(rightCactus)
-        rightCactus.frame.origin = CGPoint(x: 320, y: -150)
+        rightCactus.frame.origin.y = -200
+        
+        NSLayoutConstraint.activate([
+            leftCactus.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            leftCactus.widthAnchor.constraint(equalToConstant: 30),
+            leftCactus.heightAnchor.constraint(equalToConstant: 80),
+            
+            //leftCactus2.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            //leftCactus2.widthAnchor.constraint(equalToConstant: 30),
+            //leftCactus2.heightAnchor.constraint(equalToConstant: 80),
+            
+            rightCactus.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            rightCactus.widthAnchor.constraint(equalToConstant: 30),
+            rightCactus.heightAnchor.constraint(equalToConstant: 80),
+        ])
     }
     
     private func setupObstacle() {
@@ -233,17 +277,27 @@ final class GameViewController: UIViewController {
     
     private func setupRacingCar() {
         view.addSubview(racingCar)
-        racingCar.frame.origin = CGPoint(x: view.center.x - 50, y: 600)
+        racingCar.frame.origin = CGPoint(x: view.center.x - racingCar.frame.width / 2, y: 600)
     }
     
     private func setupButtons() {
         view.addSubview(leftButton)
-        leftButton.frame.origin = CGPoint(x: 50, y: 700)
         leftButton.addTarget(self, action: #selector(leftButtonDidPress), for: .touchDown)
-        
+    
         view.addSubview(rightButton)
-        rightButton.frame.origin = CGPoint(x: 250, y: 700)
         rightButton.addTarget(self, action: #selector(rightButtonDidPress), for: .touchDown)
+        
+        NSLayoutConstraint.activate([
+            leftButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -leftButton.frame.width - 100),
+            leftButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            leftButton.heightAnchor.constraint(equalToConstant: 100),
+            leftButton.widthAnchor.constraint(equalToConstant: 100),
+            
+            rightButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: +rightButton.frame.width + 100),
+            rightButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            rightButton.heightAnchor.constraint(equalToConstant: 100),
+            rightButton.widthAnchor.constraint(equalToConstant: 100),
+        ])
     }
     
     // TODO: limit car position by screen frame
@@ -273,10 +327,13 @@ final class GameViewController: UIViewController {
     }
     
     @objc func generateObstacles() {
-        let randomX1 = Int.random(in: 20...250)
+        let leftLimit = Int(leftRoadSide.frame.origin.x + leftRoadSide.frame.width + 10)
+        let rightLimit = Int(rightRoadSide.frame.origin.x - 50)
+        
+        let randomX1 = Int.random(in: leftLimit...rightLimit)
         obstacle.frame.origin = CGPoint(x: randomX1, y: -50)
         
-        let randomX2 = Int.random(in: 20...250)
+        let randomX2 = Int.random(in: leftLimit...rightLimit)
         obstacle2.frame.origin = CGPoint(x: randomX2, y: -350)
         
         UIView.animate(withDuration: 12, delay: 0, options: [.curveLinear]) {
@@ -297,7 +354,17 @@ final class GameViewController: UIViewController {
     }
     
     @objc func monitorObstaclesCollisions() {
-        if isViewIntersecting(racingCar) {
+//        if isViewIntersecting(racingCar) {
+//            isGameOver = true
+//        }
+        
+        let leftRoadSideFrame = leftRoadSide.frame
+        if (CGRectIntersectsRect(leftRoadSideFrame, racingCar.frame)) {
+            isGameOver = true
+        }
+        
+        let rightRoadSideFrame = rightRoadSide.frame
+        if (CGRectIntersectsRect(rightRoadSideFrame, racingCar.frame)) {
             isGameOver = true
         }
         
@@ -338,17 +405,18 @@ final class GameViewController: UIViewController {
         }
     }
     
-    private func isViewIntersecting(_ viewToCheck: UIView) -> Bool {
-        let allSubViews = self.view!.subviews
-        for theView in allSubViews {
-            if (!(viewToCheck .isEqual(theView))) {
-                if (CGRectIntersectsRect(viewToCheck.frame, theView.frame)) {
-                    return true
-                }
-            }
-        }
-        return false
-    }
+    // TODO: Delete
+//    private func isViewIntersecting(_ viewToCheck: UIView) -> Bool {
+//        let allSubViews = self.view!.subviews
+//        for theView in allSubViews {
+//            if (!(viewToCheck .isEqual(theView))) {
+//                if (CGRectIntersectsRect(viewToCheck.frame, theView.frame)) {
+//                    return true
+//                }
+//            }
+//        }
+//        return false
+//    }
     
     // TODO: put unconnected methods in extensions Ex: GameViewController+GameOver
     private func gameOver() {
@@ -367,7 +435,7 @@ final class GameViewController: UIViewController {
     }
     
     private func resetCarAndObstaclesPositions() {
-        racingCar.frame.origin = CGPoint(x: view.center.x - 50, y: 600)
+        racingCar.frame.origin = CGPoint(x: view.center.x - racingCar.frame.width / 2, y: 600)
         obstacle.frame.origin = CGPoint(x: 150, y: -50)
         obstacle2.frame.origin = CGPoint(x: 250, y: -350)
     }
