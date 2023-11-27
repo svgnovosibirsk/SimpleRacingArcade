@@ -24,7 +24,6 @@ final class GameViewController: UIViewController {
     var isScoreTwoMonitoring = true
     var screenWidth: CGFloat = 0
     var screenHeight: CGFloat = 0
-    var tenthOfScreenHeight : CGFloat = 0
     
     var score = 0 {
         didSet {
@@ -86,12 +85,12 @@ final class GameViewController: UIViewController {
         return cactus
     }()
     
-    let leftCactus2: UIView  = {
-        let cactus = UIView()
-        cactus.backgroundColor = .systemGreen
-        cactus.translatesAutoresizingMaskIntoConstraints = false
-        return cactus
-    }()
+//    let leftCactus2: UIView  = {
+//        let cactus = UIView()
+//        cactus.backgroundColor = .systemGreen
+//        cactus.translatesAutoresizingMaskIntoConstraints = false
+//        return cactus
+//    }()
     
     let rightCactus: UIView  = {
         let cactus = UIView()
@@ -119,11 +118,17 @@ final class GameViewController: UIViewController {
     let racingCar: UIView  = {
         let car = UIView()
         car.frame = CGRect(origin: .zero, size: CGSize(width: 50, height: 60))
-        car.backgroundColor = .systemRed
+        car.backgroundColor = .clear
         car.translatesAutoresizingMaskIntoConstraints = false
+        
+        let carImage = UIImage(named: "redCar")
+        let carImageView = UIImageView(image: carImage)
+        car.addSubview(carImageView)
+        carImageView.center = car.center
+        
         return car
     }()
-    
+        
     // TODO: custom view to buttons
     let leftButton: UIButton  = {
         let button = UIButton()
@@ -157,7 +162,6 @@ final class GameViewController: UIViewController {
         view.backgroundColor = .systemGray3
         screenWidth = view.bounds.width
         screenHeight = view.bounds.height
-        tenthOfScreenHeight = screenHeight / 10
         setupRoadScreen()
     }
     
@@ -165,28 +169,15 @@ final class GameViewController: UIViewController {
         enableButtons()
         
         UIView.animate(withDuration: 6, delay: 0, options: [.curveLinear, .repeat]) {
-//            self.centerStrip.frame.origin = CGPoint(x: self.view.center.x - 5, y: 200)
-//            self.centerStrip2.frame.origin = CGPoint(x: self.view.center.x - 5, y: 500)
-//            self.centerStrip3.frame.origin = CGPoint(x: self.view.center.x - 5, y: 800)
-            
-            self.centerStrip.frame.origin = CGPoint(x: self.view.center.x - 5, y: self.tenthOfScreenHeight * 4)
-            self.centerStrip2.frame.origin = CGPoint(x: self.view.center.x - 5, y: self.tenthOfScreenHeight * 7)
-            self.centerStrip3.frame.origin = CGPoint(x: self.view.center.x - 5, y: self.tenthOfScreenHeight * 10)
-            
-//            self.leftCactus.frame.origin = CGPoint(x: 20, y: 450)
-//            self.leftCactus2.frame.origin = CGPoint(x: 20, y: 850)
-            
-            self.leftCactus.frame.origin.y = self.screenHeight + 50
-           // self.leftCactus2.frame.origin.y = self.screenHeight + 50
+            self.centerStrip.frame.origin = CGPoint(x: self.view.center.x - 5, y: 200)
+            self.centerStrip2.frame.origin = CGPoint(x: self.view.center.x - 5, y: 500)
+            self.centerStrip3.frame.origin = CGPoint(x: self.view.center.x - 5, y: 800)
         }
         
         UIView.animate(withDuration: 12, delay: 0, options: [.curveLinear, .repeat]) {
             self.leftCactus.frame.origin.y = self.screenHeight + 50
-        }
-        
-        UIView.animate(withDuration: 10, delay: 0, options: [.curveLinear, .repeat]) {
-            //self.rightCactus.frame.origin = CGPoint(x: 320, y: 850)
-            self.rightCactus.frame.origin.y = self.screenHeight + 200
+            //self.leftCactus2.frame.origin.y = self.screenHeight + 100
+            self.rightCactus.frame.origin.y = self.screenHeight + 50
         }
         
         setupObstaclesTimer()
@@ -213,16 +204,13 @@ final class GameViewController: UIViewController {
     
     private func setupCenterStrip() {
         view.addSubview(centerStrip)
-        //centerStrip.frame.origin = CGPoint(x: view.center.x - 5, y: -100)
-        centerStrip.frame.origin = CGPoint(x: view.center.x - 5, y: -tenthOfScreenHeight)
+        centerStrip.frame.origin = CGPoint(x: view.center.x - 5, y: -100)
         
         view.addSubview(centerStrip2)
-        //centerStrip2.frame.origin = CGPoint(x: view.center.x - 5, y: 200)
-        centerStrip2.frame.origin = CGPoint(x: view.center.x - 5, y: tenthOfScreenHeight * 4)
+        centerStrip2.frame.origin = CGPoint(x: view.center.x - 5, y: 200)
         
         view.addSubview(centerStrip3)
-        //centerStrip3.frame.origin = CGPoint(x: view.center.x - 5, y: 500)
-        centerStrip3.frame.origin = CGPoint(x: view.center.x - 5, y: tenthOfScreenHeight * 7)
+        centerStrip3.frame.origin = CGPoint(x: view.center.x - 5, y: 500)
     }
     
     private func setupRoadSides() {
@@ -244,26 +232,25 @@ final class GameViewController: UIViewController {
         view.addSubview(leftCactus)
         leftCactus.frame.origin.y = -50
         
-        //view.addSubview(leftCactus2)
-        //leftCactus2.frame.origin = CGPoint(x: 20, y: 450)
-        //leftCactus2.frame.origin.y = screenHeight / 2
-        //leftCactus2.backgroundColor = .blue
+//        view.addSubview(leftCactus2)
+//        leftCactus2.frame.origin.y = 0
+//        leftCactus2.backgroundColor = .blue
         
         view.addSubview(rightCactus)
-        rightCactus.frame.origin.y = -200
+        rightCactus.frame.origin.y = -50
         
         NSLayoutConstraint.activate([
             leftCactus.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             leftCactus.widthAnchor.constraint(equalToConstant: 30),
             leftCactus.heightAnchor.constraint(equalToConstant: 80),
             
-            //leftCactus2.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            //leftCactus2.widthAnchor.constraint(equalToConstant: 30),
-            //leftCactus2.heightAnchor.constraint(equalToConstant: 80),
+//            leftCactus2.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+//            leftCactus2.widthAnchor.constraint(equalToConstant: 30),
+//            leftCactus2.heightAnchor.constraint(equalToConstant: 80),
             
             rightCactus.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             rightCactus.widthAnchor.constraint(equalToConstant: 30),
-            rightCactus.heightAnchor.constraint(equalToConstant: 80),
+            rightCactus.heightAnchor.constraint(equalToConstant: 80)
         ])
     }
     
