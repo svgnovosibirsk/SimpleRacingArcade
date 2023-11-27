@@ -111,14 +111,14 @@ final class GameViewController: UIViewController {
     
     let obstacle: UIView  = {
         let obstacle = UIView()
-        obstacle.frame = CGRect(origin: .zero, size: CGSize(width: 40, height: 40))
+        obstacle.frame = CGRect(origin: .zero, size: CGSize(width: 50, height: 60))
         obstacle.backgroundColor = .clear
         obstacle.translatesAutoresizingMaskIntoConstraints = false
         
-        let waterImage = UIImage(named: "water")
-        let waterImageView = UIImageView(image: waterImage)
-        obstacle.addSubview(waterImageView)
-        waterImageView.center = obstacle.center
+        let obstacleImage = UIImage(named: "picup")
+        let obstacleImageView = UIImageView(image: obstacleImage)
+        obstacle.addSubview(obstacleImageView)
+        obstacleImageView.center = obstacle.center
         
         return obstacle
     }()
@@ -129,10 +129,10 @@ final class GameViewController: UIViewController {
         obstacle.backgroundColor = .clear
         obstacle.translatesAutoresizingMaskIntoConstraints = false
         
-        let waterImage = UIImage(named: "water")
-        let waterImageView = UIImageView(image: waterImage)
-        obstacle.addSubview(waterImageView)
-        waterImageView.center = obstacle.center
+        let obstacleImage = UIImage(named: "picup")
+        let obstacleImageView = UIImageView(image: obstacleImage)
+        obstacle.addSubview(obstacleImageView)
+        obstacleImageView.center = obstacle.center
         
         return obstacle
     }()
@@ -278,7 +278,7 @@ final class GameViewController: UIViewController {
     
     private func setupObstacle() {
         view.addSubview(obstacle)
-        obstacle.frame.origin = CGPoint(x: 150, y: -50)
+        obstacle.frame.origin = CGPoint(x: 150, y: -100)
         
         view.addSubview(obstacle2)
         obstacle2.frame.origin = CGPoint(x: 250, y: -350)
