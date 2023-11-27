@@ -112,16 +112,28 @@ final class GameViewController: UIViewController {
     let obstacle: UIView  = {
         let obstacle = UIView()
         obstacle.frame = CGRect(origin: .zero, size: CGSize(width: 40, height: 40))
-        obstacle.backgroundColor = .systemBlue
+        obstacle.backgroundColor = .clear
         obstacle.translatesAutoresizingMaskIntoConstraints = false
+        
+        let waterImage = UIImage(named: "water")
+        let waterImageView = UIImageView(image: waterImage)
+        obstacle.addSubview(waterImageView)
+        waterImageView.center = obstacle.center
+        
         return obstacle
     }()
     
     let obstacle2: UIView  = {
         let obstacle = UIView()
         obstacle.frame = CGRect(origin: .zero, size: CGSize(width: 40, height: 40))
-        obstacle.backgroundColor = .systemBlue
+        obstacle.backgroundColor = .clear
         obstacle.translatesAutoresizingMaskIntoConstraints = false
+        
+        let waterImage = UIImage(named: "water")
+        let waterImageView = UIImageView(image: waterImage)
+        obstacle.addSubview(waterImageView)
+        waterImageView.center = obstacle.center
+        
         return obstacle
     }()
     
