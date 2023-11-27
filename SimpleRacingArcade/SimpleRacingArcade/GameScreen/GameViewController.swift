@@ -80,8 +80,13 @@ final class GameViewController: UIViewController {
     
     let leftCactus: UIView  = {
         let cactus = UIView()
-        cactus.backgroundColor = .systemGreen
+        cactus.backgroundColor = .clear
         cactus.translatesAutoresizingMaskIntoConstraints = false
+        
+        let cactusImage = UIImage(named: "cactus")
+        let cactusImageView = UIImageView(image: cactusImage)
+        cactus.addSubview(cactusImageView)
+        
         return cactus
     }()
     
@@ -94,8 +99,13 @@ final class GameViewController: UIViewController {
     
     let rightCactus: UIView  = {
         let cactus = UIView()
-        cactus.backgroundColor = .systemGreen
+        cactus.backgroundColor = .clear
         cactus.translatesAutoresizingMaskIntoConstraints = false
+        
+        let cactusImage = UIImage(named: "cactus")
+        let cactusImageView = UIImageView(image: cactusImage)
+        cactus.addSubview(cactusImageView)
+        
         return cactus
     }()
     
