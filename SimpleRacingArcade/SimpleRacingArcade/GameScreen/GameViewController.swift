@@ -115,7 +115,7 @@ final class GameViewController: UIViewController {
         obstacle.backgroundColor = .clear
         obstacle.translatesAutoresizingMaskIntoConstraints = false
         
-        let obstacleImage = UIImage(named: "picup")
+        let obstacleImage = UIImage(named: "policeCar")
         let obstacleImageView = UIImageView(image: obstacleImage)
         obstacle.addSubview(obstacleImageView)
         obstacleImageView.center = obstacle.center
