@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Speed: CaseIterable {
+enum Speed {
     case slow
     case normal
     case fast
