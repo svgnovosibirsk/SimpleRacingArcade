@@ -8,8 +8,8 @@
 import Foundation
 
 protocol StorageProtocol {
-    func saveGameState()
-    func fetchGameState()
+    func saveGameState(dto: GameStateDTO)
+    func fetchGameState() -> GameStateDTO?
 }
 
 final class UserDefaultsStorage: StorageProtocol {
@@ -23,11 +23,12 @@ final class UserDefaultsStorage: StorageProtocol {
     private init() {}
     
     //MARK: - Flow
-    func saveGameState() {
+    func saveGameState(dto: GameStateDTO) {
         print(#function)
     }
     
-    func fetchGameState() {
+    func fetchGameState() -> GameStateDTO? {
         print(#function)
+        return nil
     }
 }

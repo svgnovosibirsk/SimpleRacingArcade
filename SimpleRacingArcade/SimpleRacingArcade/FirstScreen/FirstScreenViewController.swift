@@ -20,6 +20,8 @@ final class FirstScreenViewController: UIViewController {
         view.backgroundColor = .white
         setupStackView()
         setupButtons()
+        
+        GameState.fetchState()
     }
     
     //MARK: - Flow

@@ -48,6 +48,8 @@ final class GameViewController: UIViewController {
         }
     }
     
+    var player: Player?
+    
     //MARK: - Views
     let centerStrip = UIView .centralStrip()
     let centerStrip2 = UIView .centralStrip()
@@ -59,10 +61,10 @@ final class GameViewController: UIViewController {
     let leftCactus = UIView.roadCuctus()
     let rightCactus = UIView.roadCuctus()
 
-    let obstacle = UIView.roadObstacle(withName: LocalConstants.bus)
-    let obstacle2 = UIView.roadObstacle(withName: LocalConstants.picup)
+    var obstacle = UIView.roadObstacle(withName: LocalConstants.bus)
+    var obstacle2 = UIView.roadObstacle(withName: LocalConstants.picup)
     
-    let racingCar = UIView.racingCar(withName: LocalConstants.redCar)
+    var racingCar = UIView.racingCar(withName: LocalConstants.redCar)
 
     let leftButton = UIButton.controlButton(withTitle: LocalConstants.left)
     let rightButton = UIButton.controlButton(withTitle: LocalConstants.right)
@@ -73,6 +75,10 @@ final class GameViewController: UIViewController {
         
         title = "\(LocalConstants.score) \(score)"
         view.backgroundColor = .systemGray3
+        
+        GameState.fetchState()
+        player = GameState.player
+        
         screenWidth = view.bounds.width
         screenHeight = view.bounds.height
         setupRoadScreen()
@@ -177,6 +183,18 @@ final class GameViewController: UIViewController {
     }
     
     private func setupObstacle() {
+        switch player?.obstacle {
+        case.picup:
+            obstacle = UIView.roadObstacle(withName: LocalConstants.picup)
+            obstacle2 = UIView.roadObstacle(withName: LocalConstants.picup)
+        case .bus:
+            obstacle = UIView.roadObstacle(withName: LocalConstants.bus)
+            obstacle2 = UIView.roadObstacle(withName: LocalConstants.bus)
+        default:
+            obstacle = UIView.roadObstacle(withName: LocalConstants.policeCar)
+            obstacle2 = UIView.roadObstacle(withName: LocalConstants.policeCar)
+        }
+        
         view.addSubview(obstacle)
         obstacle.frame.origin = CGPoint(x: Constants.constraint150, y: Constants.constraintMinus100)
         
@@ -185,6 +203,15 @@ final class GameViewController: UIViewController {
     }
     
     private func setupRacingCar() {
+        switch player?.car {
+        case .red:
+            racingCar = UIView.racingCar(withName: LocalConstants.redCar)
+        case .green:
+            racingCar = UIView.racingCar(withName: LocalConstants.greenCar)
+        default:
+            racingCar = UIView.racingCar(withName: LocalConstants.yellowCar)
+        }
+        
         view.addSubview(racingCar)
         racingCar.frame.origin = CGPoint(x: view.center.x - racingCar.frame.width / 2,
                                          y: screenHeight - Constants.constraint200)
