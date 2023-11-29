@@ -70,7 +70,7 @@ final class GameViewController: UIViewController {
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         title = "\(LocalConstants.score) \(score)"
         view.backgroundColor = .systemGray3
         screenWidth = view.bounds.width
