@@ -16,7 +16,7 @@ final class GameState {
     //MARK: - Properties
     //TODO: make storage via protocol and dependency injection
     private static let storage = UserDefaultsStorage.shared
-    static var player = Player(name: "Unknown", car: .green, speed: .slow, obstacle: .police)
+    static var player = Player(name: "Unknown", car: .red, speed: .normal, obstacle: .picup)
     static var records: [Int] = []
     
     //TODO: Singleton?

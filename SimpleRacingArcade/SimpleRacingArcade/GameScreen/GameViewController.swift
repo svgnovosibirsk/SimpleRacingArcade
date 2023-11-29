@@ -26,6 +26,9 @@ final class GameViewController: UIViewController {
         static let alpha01: CGFloat = 0.1
         static let alpha1: CGFloat = 1
         static let stripInset5: CGFloat = 5
+        static let speedFast: CGFloat = 4
+        static let speedNormal: CGFloat = 8
+        static let speedSlow: CGFloat = 12
     }
     
     //MARK: - Properties
@@ -33,6 +36,7 @@ final class GameViewController: UIViewController {
     var collisionTimer: Timer?
     var isScoreOneMonitoring = true
     var isScoreTwoMonitoring = true
+    var isCollisionDetecting = true
     var screenWidth: CGFloat = 0
     var screenHeight: CGFloat = 0
     
@@ -63,6 +67,7 @@ final class GameViewController: UIViewController {
 
     var obstacle = UIView.roadObstacle(withName: LocalConstants.bus)
     var obstacle2 = UIView.roadObstacle(withName: LocalConstants.picup)
+    var obstacleSpeed = Constants.timeInterval12
     
     var racingCar = UIView.racingCar(withName: LocalConstants.redCar)
 
@@ -135,7 +140,6 @@ final class GameViewController: UIViewController {
     }
     
     private func setupCenterStrip() {
-        // TODO: Tune and put magig numbers to constants
         view.addSubview(centerStrip)
         centerStrip.frame.origin = CGPoint(x: view.center.x - LocalConstants.stripInset5,
                                            y: Constants.constraintMinus100)
@@ -255,8 +259,21 @@ final class GameViewController: UIViewController {
         }
     }
     
+    private func setObstacleSpeed() {
+        switch player?.speed {
+        case .fast:
+            obstacleSpeed = LocalConstants.speedFast
+        case .normal:
+            obstacleSpeed = LocalConstants.speedNormal
+        default:
+            obstacleSpeed = LocalConstants.speedSlow
+        }
+    }
+    
     private func setupObstaclesTimer() {
-        obstacalesTimer = Timer.scheduledTimer(timeInterval: Constants.timeInterval12,
+        setObstacleSpeed()
+        
+        obstacalesTimer = Timer.scheduledTimer(timeInterval: obstacleSpeed,
                                          target: self,
                                          selector: #selector(generateObstacles),
                                          userInfo: nil,
@@ -273,7 +290,9 @@ final class GameViewController: UIViewController {
         let randomX2 = Int.random(in: leftLimit...rightLimit)
         obstacle2.frame.origin = CGPoint(x: randomX2, y: Int(Constants.constraintMinus350))
         
-        UIView.animate(withDuration: Constants.duration12, delay: Constants.delay0, options: [.curveLinear]) {
+        UIView.animate(withDuration: obstacleSpeed,
+                       delay: Constants.delay0,
+                       options: [.curveLinear]) {
             self.obstacle.frame.origin = CGPoint(x: randomX1, y: Int(Constants.constraint1150))
             self.obstacle2.frame.origin = CGPoint(x: randomX2, y: Int(Constants.constraint850))
         } completion: { isDone in
@@ -284,7 +303,7 @@ final class GameViewController: UIViewController {
     
     //MARK: Collisions
     private func setupCollisionTimer() {
-        collisionTimer = Timer.scheduledTimer(timeInterval: Constants.timeInterval1,
+        collisionTimer = Timer.scheduledTimer(timeInterval: Constants.timeInterval03,
                                               target: self,
                                               selector: #selector(monitorCollisionAndScore),
                                               userInfo: nil,
@@ -297,26 +316,28 @@ final class GameViewController: UIViewController {
     }
     
     func monitorObstaclesCollisions() {
-        let leftRoadSideFrame = leftRoadSide.frame
-        if (CGRectIntersectsRect(leftRoadSideFrame, racingCar.frame)) {
-            isGameOver = true
-        }
-        
-        let rightRoadSideFrame = rightRoadSide.frame
-        if (CGRectIntersectsRect(rightRoadSideFrame, racingCar.frame)) {
-            isGameOver = true
-        }
-        
-        //TODO: put all obstacles in array and iterate over array
-  
-        let obstacleFrame = obstacle.layer.presentation()?.frame
-        if (CGRectIntersectsRect(obstacleFrame!, racingCar.frame)) {
-            isGameOver = true
-        }
-        
-        let obstacleFrame2 = obstacle2.layer.presentation()?.frame
-        if (CGRectIntersectsRect(obstacleFrame2!, racingCar.frame)) {
-            isGameOver = true
+        if isCollisionDetecting {
+            let leftRoadSideFrame = leftRoadSide.frame
+            if (CGRectIntersectsRect(leftRoadSideFrame, racingCar.frame)) {
+                isGameOver = true
+            }
+            
+            let rightRoadSideFrame = rightRoadSide.frame
+            if (CGRectIntersectsRect(rightRoadSideFrame, racingCar.frame)) {
+                isGameOver = true
+            }
+            
+            //TODO: put all obstacles in array and iterate over array
+            
+            let obstacleFrame = obstacle.layer.presentation()?.frame
+            if (CGRectIntersectsRect(obstacleFrame!, racingCar.frame)) {
+                isGameOver = true
+            }
+            
+            let obstacleFrame2 = obstacle2.layer.presentation()?.frame
+            if (CGRectIntersectsRect(obstacleFrame2!, racingCar.frame)) {
+                isGameOver = true
+            }
         }
     }
     
@@ -339,6 +360,7 @@ final class GameViewController: UIViewController {
     private func gameOver() {
         isScoreOneMonitoring = false
         isScoreTwoMonitoring = false
+        isCollisionDetecting = false
         disableButtons()
         showGameOverAlert()
     }
@@ -347,6 +369,7 @@ final class GameViewController: UIViewController {
         score = 0
         isScoreOneMonitoring = true
         isScoreTwoMonitoring = true
+        isCollisionDetecting = true
         enableButtons()
         resetCarAndObstaclesPositions()
     }
