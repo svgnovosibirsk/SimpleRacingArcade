@@ -14,10 +14,12 @@ final class GameViewController: UIViewController {
         static let left = "L"
         static let right = "R"
         static let score = "Score:"
-        static let cactusImage = "cactus"
-        static let policeCarImage = "policeCar"
-        static let picupImage = "picup"
-        static let redCarImage = "redCar"
+        static let policeCar = "policeCar"
+        static let picup = "picup"
+        static let bus = "bus"
+        static let redCar = "redCar"
+        static let greenCar = "greenCar"
+        static let yellowCar = "yellowCar"
         static let gameOver = "GAME OVER"
         static let resume = "Resume"
         static let prizeScore = 1
@@ -46,149 +48,24 @@ final class GameViewController: UIViewController {
     }
     
     //MARK: - Views
-    //TODO: position all views via constraints NOT frames
-    //TODO: put center strips in one superview
-    //MARK: Central strip
-    let centerStrip: UIView  = {
-        let strip = UIView()
-        strip.frame = CGRect(origin: .zero, size: CGSize(width: Constants.constraint10,
-                                                         height: Constants.constraint100))
-        strip.backgroundColor = .white
-        strip.translatesAutoresizingMaskIntoConstraints = false
-        return strip
-    }()
+    //TODO: put center strips in one superview ?
+    let centerStrip = UIView .centralStrip()
+    let centerStrip2 = UIView .centralStrip()
+    let centerStrip3 = UIView .centralStrip()
     
-    let centerStrip2: UIView  = {
-        let strip = UIView()
-        strip.frame = CGRect(origin: .zero, size: CGSize(width: Constants.constraint10,
-                                                         height: Constants.constraint100))
-        strip.backgroundColor = .white
-        strip.translatesAutoresizingMaskIntoConstraints = false
-        return strip
-    }()
+    let leftRoadSide = UIView.roadSide()
+    let rightRoadSide = UIView.roadSide()
     
-    let centerStrip3: UIView  = {
-        let strip = UIView()
-        strip.frame = CGRect(origin: .zero, size: CGSize(width: Constants.constraint10,
-                                                         height: Constants.constraint100))
-        strip.backgroundColor = .white
-        strip.translatesAutoresizingMaskIntoConstraints = false
-        return strip
-    }()
+    let leftCactus = UIView.roadCuctus()
+    let rightCactus = UIView.roadCuctus()
+
+    let obstacle = UIView.roadObstacle(withName: LocalConstants.bus)
+    let obstacle2 = UIView.roadObstacle(withName: LocalConstants.picup)
     
-    //MARK: Road sides
-    let leftRoadSide: UIView  = {
-        let roadSide = UIView()
-        roadSide.backgroundColor = .systemYellow
-        roadSide.translatesAutoresizingMaskIntoConstraints = false
-        return roadSide
-    }()
-    
-    let rightRoadSide: UIView  = {
-        let roadSide = UIView()
-        roadSide.backgroundColor = .systemYellow
-        roadSide.translatesAutoresizingMaskIntoConstraints = false
-        return roadSide
-    }()
-    
-    //MARK: Cactuses
-    let leftCactus: UIView  = {
-        let cactus = UIView()
-        cactus.backgroundColor = .clear
-        cactus.translatesAutoresizingMaskIntoConstraints = false
-        
-        let cactusImage = UIImage(named: LocalConstants.cactusImage)
-        let cactusImageView = UIImageView(image: cactusImage)
-        cactus.addSubview(cactusImageView)
-        
-        return cactus
-    }()
-    
-//    let leftCactus2: UIView  = {
-//        let cactus = UIView()
-//        cactus.backgroundColor = .systemGreen
-//        cactus.translatesAutoresizingMaskIntoConstraints = false
-//        return cactus
-//    }()
-    
-    let rightCactus: UIView  = {
-        let cactus = UIView()
-        cactus.backgroundColor = .clear
-        cactus.translatesAutoresizingMaskIntoConstraints = false
-        
-        let cactusImage = UIImage(named: LocalConstants.cactusImage)
-        let cactusImageView = UIImageView(image: cactusImage)
-        cactus.addSubview(cactusImageView)
-        
-        return cactus
-    }()
-    
-    //MARK: Obstacles
-    let obstacle: UIView  = {
-        let obstacle = UIView()
-        obstacle.frame = CGRect(origin: .zero, size: CGSize(width: Constants.constraint50,
-                                                            height: Constants.constraint60))
-        obstacle.backgroundColor = .clear
-        obstacle.translatesAutoresizingMaskIntoConstraints = false
-        
-        let obstacleImage = UIImage(named: LocalConstants.policeCarImage)
-        let obstacleImageView = UIImageView(image: obstacleImage)
-        obstacle.addSubview(obstacleImageView)
-        obstacleImageView.center = obstacle.center
-        
-        return obstacle
-    }()
-    
-    let obstacle2: UIView  = {
-        let obstacle = UIView()
-        obstacle.frame = CGRect(origin: .zero, size: CGSize(width: Constants.constraint40,
-                                                            height: Constants.constraint40))
-        obstacle.backgroundColor = .clear
-        obstacle.translatesAutoresizingMaskIntoConstraints = false
-        
-        let obstacleImage = UIImage(named: LocalConstants.picupImage)
-        let obstacleImageView = UIImageView(image: obstacleImage)
-        obstacle.addSubview(obstacleImageView)
-        obstacleImageView.center = obstacle.center
-        
-        return obstacle
-    }()
-    
-    //MARK: Car
-    let racingCar: UIView  = {
-        let car = UIView()
-        car.frame = CGRect(origin: .zero, size: CGSize(width: Constants.constraint50,
-                                                       height: Constants.constraint60))
-        car.backgroundColor = .clear
-        car.translatesAutoresizingMaskIntoConstraints = false
-        
-        let carImage = UIImage(named: LocalConstants.redCarImage)
-        let carImageView = UIImageView(image: carImage)
-        car.addSubview(carImageView)
-        carImageView.center = car.center
-        
-        return car
-    }()
-    
-    //MARK: Buttons
-    // TODO: custom view to buttons
-    let leftButton: UIButton  = {
-        let button = UIButton()
-        button.setTitle(LocalConstants.left, for: .normal)
-        button.setTitleColor(.systemGray2, for: .highlighted)
-        button.backgroundColor = UIColor(white: 0, alpha: 0.4)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-    let rightButton: UIButton  = {
-        let button = UIButton()
-        button.setTitle(LocalConstants.right, for: .normal)
-        button.setTitleColor(.systemGray2, for: .highlighted)
-        button.backgroundColor = UIColor(white: 0, alpha: 0.4)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
+    let racingCar = UIView.racingCar(withName: LocalConstants.redCar)
+
+    let leftButton = UIButton.controlButton(withTitle: LocalConstants.left)
+    let rightButton = UIButton.controlButton(withTitle: LocalConstants.right)
     
     //MARK: - Lifecycle
     override func viewDidLoad() {
@@ -214,7 +91,7 @@ final class GameViewController: UIViewController {
   
         enableButtons()
         
-        // TODO: Tune and put magig numbers to constants
+        // TODO: Tune and put magic numbers to constants
         UIView.animate(withDuration: 6, delay: 0, options: [.curveLinear, .repeat]) {
             self.centerStrip.frame.origin = CGPoint(x: self.view.center.x - 5, y: 200)
             self.centerStrip2.frame.origin = CGPoint(x: self.view.center.x - 5, y: 500)
@@ -223,7 +100,6 @@ final class GameViewController: UIViewController {
         
         UIView.animate(withDuration: 12, delay: 0, options: [.curveLinear, .repeat]) {
             self.leftCactus.frame.origin.y = self.screenHeight + 50
-            //self.leftCactus2.frame.origin.y = self.screenHeight + 100
             self.rightCactus.frame.origin.y = self.screenHeight + 50
         }
         
@@ -279,11 +155,6 @@ final class GameViewController: UIViewController {
         view.addSubview(leftCactus)
         leftCactus.frame.origin.y = Constants.constraintMinus50
         
-        // TODO: try to and more cactuses
-//        view.addSubview(leftCactus2)
-//        leftCactus2.frame.origin.y = 0
-//        leftCactus2.backgroundColor = .blue
-        
         view.addSubview(rightCactus)
         rightCactus.frame.origin.y = Constants.constraintMinus50
         
@@ -291,11 +162,6 @@ final class GameViewController: UIViewController {
             leftCactus.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.constraint20),
             leftCactus.widthAnchor.constraint(equalToConstant: Constants.constraint30),
             leftCactus.heightAnchor.constraint(equalToConstant: Constants.constraint80),
-            
-            // TODO: try to and more cactuses
-//            leftCactus2.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-//            leftCactus2.widthAnchor.constraint(equalToConstant: 30),
-//            leftCactus2.heightAnchor.constraint(equalToConstant: 80),
             
             rightCactus.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: Constants.constraintMinus20),
             rightCactus.widthAnchor.constraint(equalToConstant: Constants.constraint30),
