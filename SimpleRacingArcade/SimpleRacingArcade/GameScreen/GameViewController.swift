@@ -28,8 +28,6 @@ final class GameViewController: UIViewController {
     //MARK: - Properties
     var obstacalesTimer: Timer?
     var collisionTimer: Timer?
-    //TODO: put collision and score methods in one timer
-    var scoreTimer: Timer?
     var isScoreOneMonitoring = true
     var isScoreTwoMonitoring = true
     var screenWidth: CGFloat = 0
@@ -50,6 +48,7 @@ final class GameViewController: UIViewController {
     //MARK: - Views
     //TODO: position all views via constraints NOT frames
     //TODO: put center strips in one superview
+    //MARK: Central strip
     let centerStrip: UIView  = {
         let strip = UIView()
         strip.frame = CGRect(origin: .zero, size: CGSize(width: Constants.constraint10,
@@ -77,6 +76,7 @@ final class GameViewController: UIViewController {
         return strip
     }()
     
+    //MARK: Road sides
     let leftRoadSide: UIView  = {
         let roadSide = UIView()
         roadSide.backgroundColor = .systemYellow
@@ -91,6 +91,7 @@ final class GameViewController: UIViewController {
         return roadSide
     }()
     
+    //MARK: Cactuses
     let leftCactus: UIView  = {
         let cactus = UIView()
         cactus.backgroundColor = .clear
@@ -122,6 +123,7 @@ final class GameViewController: UIViewController {
         return cactus
     }()
     
+    //MARK: Obstacles
     let obstacle: UIView  = {
         let obstacle = UIView()
         obstacle.frame = CGRect(origin: .zero, size: CGSize(width: Constants.constraint50,
@@ -152,6 +154,7 @@ final class GameViewController: UIViewController {
         return obstacle
     }()
     
+    //MARK: Car
     let racingCar: UIView  = {
         let car = UIView()
         car.frame = CGRect(origin: .zero, size: CGSize(width: Constants.constraint50,
@@ -166,7 +169,8 @@ final class GameViewController: UIViewController {
         
         return car
     }()
-        
+    
+    //MARK: Buttons
     // TODO: custom view to buttons
     let leftButton: UIButton  = {
         let button = UIButton()
@@ -225,7 +229,6 @@ final class GameViewController: UIViewController {
         
         setupObstaclesTimer()
         setupCollisionTimer()
-        setupScoreTimer()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -336,8 +339,6 @@ final class GameViewController: UIViewController {
         ])
     }
     
-    // TODO: limit car position by screen frame
-    // TODO: make continious move when button is pressed
     @objc func leftButtonDidPress() {
         var carPositionX = racingCar.frame.origin.x
         carPositionX -= Constants.constraint10
@@ -381,15 +382,21 @@ final class GameViewController: UIViewController {
         }
     }
     
+    //MARK: Collisions
     private func setupCollisionTimer() {
         collisionTimer = Timer.scheduledTimer(timeInterval: 1,
-                                         target: self,
-                                         selector: #selector(monitorObstaclesCollisions),
-                                         userInfo: nil,
-                                         repeats: true)
+                                              target: self,
+                                              selector: #selector(monitorCollisionAndScore),
+                                              userInfo: nil,
+                                              repeats: true)
     }
     
-    @objc func monitorObstaclesCollisions() {
+    @objc func monitorCollisionAndScore() {
+        monitorObstaclesCollisions()
+        monitorObstaclesAvoiding()
+    }
+    
+    func monitorObstaclesCollisions() {
         let leftRoadSideFrame = leftRoadSide.frame
         if (CGRectIntersectsRect(leftRoadSideFrame, racingCar.frame)) {
             isGameOver = true
@@ -413,16 +420,7 @@ final class GameViewController: UIViewController {
         }
     }
     
-    //TODO: put collision and score methods in one timer
-    private func setupScoreTimer() {
-        scoreTimer = Timer.scheduledTimer(timeInterval: 0.5,
-                                         target: self,
-                                         selector: #selector(monitorObstaclesAvoiding),
-                                         userInfo: nil,
-                                         repeats: true)
-    }
-    
-    @objc func monitorObstaclesAvoiding() {
+    func monitorObstaclesAvoiding() {
         let obstacleFrame = obstacle.layer.presentation()?.frame
         let obstacleFrame2 = obstacle2.layer.presentation()?.frame
         
