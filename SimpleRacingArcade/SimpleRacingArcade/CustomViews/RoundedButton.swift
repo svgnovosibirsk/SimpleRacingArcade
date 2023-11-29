@@ -18,11 +18,18 @@ extension UIButton {
         button.setTitle(title, for: .normal)
         button.setTitleColor(color, for: .normal)
         button.setTitleColor(.systemGray2, for: .highlighted)
-        
         button.translatesAutoresizingMaskIntoConstraints = false
         button.widthAnchor.constraint(equalToConstant: Constants.width200).isActive = true
         button.heightAnchor.constraint(equalToConstant: Constants.height80).isActive = true
-        
+        return button
+    }
+    
+    class func controlButton(withTitle title: String) -> UIButton {
+        let button = UIButton()
+        button.setTitle(title, for: .normal)
+        button.setTitleColor(.systemGray2, for: .highlighted)
+        button.backgroundColor = UIColor(white: 0, alpha: 0.4)
+        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }
 }

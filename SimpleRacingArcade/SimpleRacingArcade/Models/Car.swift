@@ -7,7 +7,7 @@
 
 import UIKit
 
-enum Car: CaseIterable {
+enum Car {
     case red
     case yellow
     case green
