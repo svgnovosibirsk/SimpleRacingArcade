@@ -25,6 +25,7 @@ final class GameViewController: UIViewController {
         static let prizeScore = 1
         static let alpha01: CGFloat = 0.1
         static let alpha1: CGFloat = 1
+        static let stripInset5: CGFloat = 5
     }
     
     //MARK: - Properties
@@ -48,7 +49,6 @@ final class GameViewController: UIViewController {
     }
     
     //MARK: - Views
-    //TODO: put center strips in one superview ?
     let centerStrip = UIView .centralStrip()
     let centerStrip2 = UIView .centralStrip()
     let centerStrip3 = UIView .centralStrip()
@@ -79,9 +79,7 @@ final class GameViewController: UIViewController {
     }
         
     override func viewDidAppear(_ animated: Bool) {
-        
-        // TODO: Try to presrnt buttons already round (custom butons)
-        UIView.animate(withDuration: 0.3) {
+        UIView.animate(withDuration: Constants.duration03) {
             self.leftButton.layer.cornerRadius = self.leftButton.frame.width / 2
             self.leftButton.layer.masksToBounds = true
             
@@ -91,16 +89,22 @@ final class GameViewController: UIViewController {
   
         enableButtons()
         
-        // TODO: Tune and put magic numbers to constants
-        UIView.animate(withDuration: 6, delay: 0, options: [.curveLinear, .repeat]) {
-            self.centerStrip.frame.origin = CGPoint(x: self.view.center.x - 5, y: 200)
-            self.centerStrip2.frame.origin = CGPoint(x: self.view.center.x - 5, y: 500)
-            self.centerStrip3.frame.origin = CGPoint(x: self.view.center.x - 5, y: 800)
+        UIView.animate(withDuration: Constants.duration6,
+                       delay: Constants.delay0,
+                       options: [.curveLinear, .repeat]) {
+            self.centerStrip.frame.origin = CGPoint(x: self.view.center.x - LocalConstants.stripInset5,
+                                                    y: Constants.constraint200)
+            self.centerStrip2.frame.origin = CGPoint(x: self.view.center.x - LocalConstants.stripInset5,
+                                                     y: Constants.constraint500)
+            self.centerStrip3.frame.origin = CGPoint(x: self.view.center.x - LocalConstants.stripInset5,
+                                                     y: Constants.constraint800)
         }
         
-        UIView.animate(withDuration: 12, delay: 0, options: [.curveLinear, .repeat]) {
-            self.leftCactus.frame.origin.y = self.screenHeight + 50
-            self.rightCactus.frame.origin.y = self.screenHeight + 50
+        UIView.animate(withDuration: Constants.duration12,
+                       delay: Constants.delay0,
+                       options: [.curveLinear, .repeat]) {
+            self.leftCactus.frame.origin.y = self.screenHeight + Constants.constraint50
+            self.rightCactus.frame.origin.y = self.screenHeight + Constants.constraint50
         }
         
         setupObstaclesTimer()
@@ -127,13 +131,16 @@ final class GameViewController: UIViewController {
     private func setupCenterStrip() {
         // TODO: Tune and put magig numbers to constants
         view.addSubview(centerStrip)
-        centerStrip.frame.origin = CGPoint(x: view.center.x - 5, y: -100)
+        centerStrip.frame.origin = CGPoint(x: view.center.x - LocalConstants.stripInset5,
+                                           y: Constants.constraintMinus100)
         
         view.addSubview(centerStrip2)
-        centerStrip2.frame.origin = CGPoint(x: view.center.x - 5, y: 200)
+        centerStrip2.frame.origin = CGPoint(x: view.center.x -  LocalConstants.stripInset5,
+                                            y: Constants.constraint200)
         
         view.addSubview(centerStrip3)
-        centerStrip3.frame.origin = CGPoint(x: view.center.x - 5, y: 500)
+        centerStrip3.frame.origin = CGPoint(x: view.center.x -  LocalConstants.stripInset5,
+                                            y: Constants.constraint500)
     }
     
     private func setupRoadSides() {
@@ -208,7 +215,7 @@ final class GameViewController: UIViewController {
     @objc func leftButtonDidPress() {
         var carPositionX = racingCar.frame.origin.x
         carPositionX -= Constants.constraint10
-        UIView.animate(withDuration: 0.3) {
+        UIView.animate(withDuration: Constants.duration03) {
             self.racingCar.frame.origin.x = carPositionX
         }
     }
@@ -216,13 +223,13 @@ final class GameViewController: UIViewController {
     @objc func rightButtonDidPress() {
         var carPositionX = racingCar.frame.origin.x
         carPositionX += Constants.constraint10
-        UIView.animate(withDuration: 0.3) {
+        UIView.animate(withDuration: Constants.duration03) {
             self.racingCar.frame.origin.x = carPositionX
         }
     }
     
     private func setupObstaclesTimer() {
-        obstacalesTimer = Timer.scheduledTimer(timeInterval: 12,
+        obstacalesTimer = Timer.scheduledTimer(timeInterval: Constants.timeInterval12,
                                          target: self,
                                          selector: #selector(generateObstacles),
                                          userInfo: nil,
@@ -230,7 +237,7 @@ final class GameViewController: UIViewController {
     }
     
     @objc func generateObstacles() {
-        let leftLimit = Int(leftRoadSide.frame.origin.x + leftRoadSide.frame.width + 10)
+        let leftLimit = Int(leftRoadSide.frame.origin.x + leftRoadSide.frame.width + Constants.constraint10)
         let rightLimit = Int(rightRoadSide.frame.origin.x - Constants.constraint50)
         
         let randomX1 = Int.random(in: leftLimit...rightLimit)
@@ -239,7 +246,7 @@ final class GameViewController: UIViewController {
         let randomX2 = Int.random(in: leftLimit...rightLimit)
         obstacle2.frame.origin = CGPoint(x: randomX2, y: Int(Constants.constraintMinus350))
         
-        UIView.animate(withDuration: 12, delay: 0, options: [.curveLinear]) {
+        UIView.animate(withDuration: Constants.duration12, delay: Constants.delay0, options: [.curveLinear]) {
             self.obstacle.frame.origin = CGPoint(x: randomX1, y: Int(Constants.constraint1150))
             self.obstacle2.frame.origin = CGPoint(x: randomX2, y: Int(Constants.constraint850))
         } completion: { isDone in
@@ -250,7 +257,7 @@ final class GameViewController: UIViewController {
     
     //MARK: Collisions
     private func setupCollisionTimer() {
-        collisionTimer = Timer.scheduledTimer(timeInterval: 1,
+        collisionTimer = Timer.scheduledTimer(timeInterval: Constants.timeInterval1,
                                               target: self,
                                               selector: #selector(monitorCollisionAndScore),
                                               userInfo: nil,
