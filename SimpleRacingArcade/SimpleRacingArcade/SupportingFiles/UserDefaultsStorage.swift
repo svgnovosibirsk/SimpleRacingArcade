@@ -13,13 +13,16 @@ protocol StorageProtocol {
 }
 
 final class UserDefaultsStorage: StorageProtocol {
+    //MARK: - Properties
     static var shared: UserDefaultsStorage = {
         let instance = UserDefaultsStorage()
         return instance
     }()
     
+    //MARK: - Lifecycle
     private init() {}
     
+    //MARK: - Flow
     func saveGameState() {
         print(#function)
     }

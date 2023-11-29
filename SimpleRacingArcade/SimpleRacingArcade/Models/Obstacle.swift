@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Obstacle: CaseIterable {
+enum Obstacle {
     case picup
     case police
     case bus
