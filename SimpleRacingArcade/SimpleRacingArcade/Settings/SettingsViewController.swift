@@ -35,6 +35,7 @@ final class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        GameState.fetchState()
         title = Constants.settingsScreenTitle
         view.backgroundColor = .systemYellow
         setupScreen()
@@ -329,12 +330,12 @@ final class SettingsViewController: UIViewController {
     }
     
     @objc private func saveButtonDidPress() {
-        print(#function)
         saveSelectedCar()
         saveSelectedObstacle()
         saveSelectedSpeed()
         savePlayerName()
         savePlayerImage()
+        GameState.saveState()
     }
     
     private func savePlayerName() {

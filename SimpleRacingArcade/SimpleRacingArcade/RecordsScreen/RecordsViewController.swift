@@ -20,6 +20,8 @@ final class RecordsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        GameState.fetchState()
+        
         title = Constants.recordsScreenTitle
         setupTableView()
     }

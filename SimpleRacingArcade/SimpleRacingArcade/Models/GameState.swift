@@ -7,17 +7,17 @@
 
 import Foundation
 
-struct GameStateDTO {
-    let player: Player
-    let records: [Int] // Player?
-}
+//struct GameStateDTO {
+//    let player: Player
+//    let records: [Int] // Player?
+//}
 
 final class GameState {
     //MARK: - Properties
     //TODO: make storage via protocol and dependency injection
     private static let storage = UserDefaultsStorage.shared
     static var player = Player(name: "Unknown", car: .red, speed: .normal, obstacle: .picup)
-    static var records: [Int] = []
+    static var records: [Record] = []
     
     //TODO: Singleton?
 //    static var shared: GameState = {
@@ -29,15 +29,23 @@ final class GameState {
 //    private init() {}
     
     //MARK: - Flow
+//    static func saveState() {
+//        let dto = GameStateDTO(player: player, records: records)
+//        storage.saveGameState(dto: dto)
+//    }
+//
+//    static func fetchState() {
+//        if let dto = storage.fetchGameState() {
+//            player = dto.player
+//            records = dto.records
+//        }
+//    }
+    
     static func saveState() {
-        let dto = GameStateDTO(player: player, records: records)
-        storage.saveGameState(dto: dto)
+        storage.saveGameState()
     }
     
     static func fetchState() {
-        if let dto = storage.fetchGameState() {
-            player = dto.player
-            records = dto.records
-        }
+        storage.fetchGameState()
     }
 }

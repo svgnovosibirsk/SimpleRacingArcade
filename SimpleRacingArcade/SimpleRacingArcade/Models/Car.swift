@@ -7,7 +7,7 @@
 
 import UIKit
 
-enum Car {
+enum Car: String {
     case red
     case yellow
     case green

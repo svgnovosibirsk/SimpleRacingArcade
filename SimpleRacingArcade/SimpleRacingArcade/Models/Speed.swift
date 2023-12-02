@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Speed {
+enum Speed: String {
     case slow
     case normal
     case fast
