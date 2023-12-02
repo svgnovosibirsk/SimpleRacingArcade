@@ -92,6 +92,7 @@ final class SettingsViewController: UIViewController {
     //MARK: TextField
     private func setupNameTextField() {
         nameTextField.placeholder = LocalConstants.nameLabelPlaceholder
+        nameTextField.text = GameState.player.name
         nameTextField.backgroundColor = .systemYellow
         nameTextField.layer.cornerRadius = Constants.cornerRadius10
         nameTextField.layer.borderColor = UIColor.black.cgColor
@@ -143,11 +144,12 @@ final class SettingsViewController: UIViewController {
     
     //MARK: ImageView
     private func setupPlayerImageView()  {
-        playerImageView.image = UIImage(
+        let placeholderImage = UIImage(
             systemName: LocalConstants.imagePlaceholderName
         )?.imageWith(newSize: CGSize(width: Constants.width200,
                                      height: Constants.width200))
         
+        playerImageView.image = GameState.player.image ?? placeholderImage
         playerImageView.tintColor = .black
         playerImageView.layer.borderColor = UIColor.black.cgColor
         playerImageView.layer.borderWidth = Constants.borderWidth2
@@ -331,10 +333,12 @@ final class SettingsViewController: UIViewController {
         saveSelectedCar()
         saveSelectedObstacle()
         saveSelectedSpeed()
+        savePlayerName()
+        savePlayerImage()
     }
     
     private func savePlayerName() {
-        if let text = nameLabel.text {
+        if let text = nameTextField.text {
             GameState.player.name = text
         }
     }
