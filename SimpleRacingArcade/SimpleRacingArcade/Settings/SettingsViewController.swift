@@ -160,7 +160,11 @@ final class SettingsViewController: UIViewController {
     }
     
     @objc func playerImageViewDidTap(_ sender: UITapGestureRecognizer) {
-        print(#function)
+        let picker = UIImagePickerController()
+        picker.allowsEditing = true
+        picker.sourceType = .savedPhotosAlbum
+        picker.delegate = self
+        present(picker, animated: true)
     }
     
     private func setPlayerImageViewConstaraints() {
@@ -280,5 +284,25 @@ final class SettingsViewController: UIViewController {
     @objc private func speedSegmentedControlDidChange(_ segmentedControl: UISegmentedControl) {
         print(#function)
         print(segmentedControl.selectedSegmentIndex)
+    }
+}
+
+//MARK:  UIImagePickerController
+extension SettingsViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        var newImage: UIImage
+        
+        if let possibleImage = info[.editedImage] as? UIImage {
+            newImage = possibleImage
+        } else if let possibleImage = info[.originalImage] as? UIImage {
+            newImage = possibleImage
+        } else {
+            return
+        }
+        
+        stackView.distribution = .equalCentering
+        playerImageView.image = newImage
+        dismiss(animated: true)
     }
 }
