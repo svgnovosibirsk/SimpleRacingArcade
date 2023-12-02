@@ -78,7 +78,7 @@ final class GameViewController: UIViewController {
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         GameState.fetchState()
         
         title = "\(LocalConstants.score) \(score)"
