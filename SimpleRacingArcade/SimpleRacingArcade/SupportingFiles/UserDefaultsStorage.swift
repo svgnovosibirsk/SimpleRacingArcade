@@ -53,7 +53,7 @@ final class UserDefaultsStorage: StorageProtocol {
         defaults.set(GameState.player.speed.rawValue, forKey: LocalConstants.playerSpeed)
         defaults.set(GameState.player.obstacle.rawValue, forKey: LocalConstants.playerObstacle)
         savePlayerImage()
-        defaults.set(GameState.records, forKey: LocalConstants.gameRecords)
+        saveRecords()
     }
     
     func fetchGameState() {
@@ -83,10 +83,7 @@ final class UserDefaultsStorage: StorageProtocol {
         }
                 
         loadImage()
-        
-        if let gameRecords = defaults.object(forKey: LocalConstants.playerImage) as? [Record] {
-            GameState.records = gameRecords
-        }
+        loadRecords()
     }
 }
 
@@ -102,5 +99,28 @@ private extension UserDefaultsStorage {
         let decoded = try! PropertyListDecoder().decode(Data.self, from: data)
         let image = UIImage(data: decoded)
         GameState.player.image = image
+    }
+    
+    func loadRecords() {
+        print(#function)
+        if let records = UserDefaults.standard.value(forKey: LocalConstants.gameRecords) as? Data {
+            let decoder = JSONDecoder()
+            if let recordsDecoded = try? decoder.decode(Array.self, from: records) as [Record] {
+                GameState.records = recordsDecoded
+                print(recordsDecoded)
+            } else {
+                GameState.records = [Record]()
+            }
+        } else {
+            GameState.records = [Record]()
+        }
+    }
+
+    func saveRecords() {
+        print(#function)
+        let encoder = JSONEncoder()
+        if let encoded = try? encoder.encode(GameState.records){
+            UserDefaults.standard.set(encoded, forKey: LocalConstants.gameRecords)
+        }
     }
 }

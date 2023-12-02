@@ -42,14 +42,15 @@ final class RecordsViewController: UIViewController {
 //MARK: - UITableViewDelegate, UITableViewDataSource
 extension RecordsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return Player.sampleData.count
+        return GameState.records.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: LocalConstants.cellId, for: indexPath)
-        let player = Player.sampleData.sorted{$0.score > $1.score}[indexPath.row]
+        let record = GameState.records.sorted{$0.score > $1.score}[indexPath.row]
         cell.backgroundColor = .systemGreen
-        cell.textLabel?.text = "\(player.name): \(player.score)"
+        cell.textLabel?.text = "\(record.name): \(record.score)"
+        
         return cell
     }
     

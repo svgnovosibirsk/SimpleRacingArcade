@@ -43,6 +43,7 @@ final class GameViewController: UIViewController {
     var score = 0 {
         didSet {
             title = "\(LocalConstants.score) \(score)"
+            GameState.player.score = score
         }
     }
     
@@ -365,6 +366,8 @@ final class GameViewController: UIViewController {
         isCollisionDetecting = false
         disableButtons()
         showGameOverAlert()
+        GameState.updateRecords()
+        GameState.saveState()
     }
     
     private func resumeGame() {
