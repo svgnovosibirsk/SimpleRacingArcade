@@ -8,7 +8,7 @@
 import UIKit
 
 struct Player {
-    let name: String
+    var name: String
     var image: UIImage?
     var car: Car
     var speed: Speed

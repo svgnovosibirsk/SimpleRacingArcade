@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Obstacle {
+enum Obstacle: String {
     case picup
     case police
     case bus

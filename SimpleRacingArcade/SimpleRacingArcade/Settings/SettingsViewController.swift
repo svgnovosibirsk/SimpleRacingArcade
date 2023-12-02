@@ -12,6 +12,7 @@ final class SettingsViewController: UIViewController {
     private enum LocalConstants {
         static let nameLabelPlaceholder = "Enter your name"
         static let imagePlaceholderName = "person"
+        static let saveTitle = "Save"
         static let selectedCarSegment = 1
         static let selectedSegmentWhite: CGFloat = 0
         static let selectedSegmentAlfa = 0.2
@@ -27,11 +28,14 @@ final class SettingsViewController: UIViewController {
     private let carSegmentedControl = UISegmentedControl(items: Car.cars())
     private let obstaclesSegmentedControl = UISegmentedControl(items: Obstacle.obstacles())
     private let speedSegmentedControl = UISegmentedControl(items: Speed.speedOptions())
+    private let saveButton = UIButton.roundedButton(title: LocalConstants.saveTitle, color: .black)
+    private var tapGestureRecognizer: UITapGestureRecognizer?
 
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        GameState.fetchState()
         title = Constants.settingsScreenTitle
         view.backgroundColor = .systemYellow
         setupScreen()
@@ -49,6 +53,7 @@ final class SettingsViewController: UIViewController {
         setupCarSegmentedControl()
         setupObstaclesSegmentedControl()
         setupSpeedSegmentedControl()
+        setupSaveButton()
     }
     
     //MARK: Stack
@@ -88,6 +93,7 @@ final class SettingsViewController: UIViewController {
     //MARK: TextField
     private func setupNameTextField() {
         nameTextField.placeholder = LocalConstants.nameLabelPlaceholder
+        nameTextField.text = GameState.player.name
         nameTextField.backgroundColor = .systemYellow
         nameTextField.layer.cornerRadius = Constants.cornerRadius10
         nameTextField.layer.borderColor = UIColor.black.cgColor
@@ -139,19 +145,32 @@ final class SettingsViewController: UIViewController {
     
     //MARK: ImageView
     private func setupPlayerImageView()  {
-        playerImageView.image = UIImage(
+        let placeholderImage = UIImage(
             systemName: LocalConstants.imagePlaceholderName
         )?.imageWith(newSize: CGSize(width: Constants.width200,
                                      height: Constants.width200))
         
+        playerImageView.image = GameState.player.image ?? placeholderImage
         playerImageView.tintColor = .black
-        //TODO: delete or implement
-//        playerImageView.layer.borderColor = UIColor.black.cgColor
-//        playerImageView.layer.borderWidth = 2
-//        playerImageView.layer.cornerRadius = (playerImageView.image?.size.height)! / 2
-//        playerImageView.clipsToBounds = true
+        playerImageView.layer.borderColor = UIColor.black.cgColor
+        playerImageView.layer.borderWidth = Constants.borderWidth2
+        playerImageView.layer.cornerRadius = Constants.cornerRadius20
+        playerImageView.clipsToBounds = true
         playerImageView.contentMode = .scaleAspectFit
+        playerImageView.isUserInteractionEnabled = true
+        
+        tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(playerImageViewDidTap(_:)))
+        playerImageView.addGestureRecognizer(tapGestureRecognizer!)
+        
         setPlayerImageViewConstaraints()
+    }
+    
+    @objc func playerImageViewDidTap(_ sender: UITapGestureRecognizer) {
+        let picker = UIImagePickerController()
+        picker.allowsEditing = true
+        picker.sourceType = .savedPhotosAlbum
+        picker.delegate = self
+        present(picker, animated: true)
     }
     
     private func setPlayerImageViewConstaraints() {
@@ -206,9 +225,6 @@ final class SettingsViewController: UIViewController {
     }
     
     @objc private func carSegmentedControlDidChange(_ segmentedControl: UISegmentedControl) {
-        print(#function)
-        print(segmentedControl.selectedSegmentIndex)
-        
         switch segmentedControl.selectedSegmentIndex {
         case 0:
             segmentedControl.selectedSegmentTintColor = .systemRed
@@ -216,6 +232,17 @@ final class SettingsViewController: UIViewController {
             segmentedControl.selectedSegmentTintColor = .systemGreen
         default:
             segmentedControl.selectedSegmentTintColor = .yellow
+        }
+    }
+    
+    private func saveSelectedCar() {
+        switch carSegmentedControl.selectedSegmentIndex {
+        case 0:
+            GameState.player.car = .red
+        case 2:
+            GameState.player.car = .green
+        default:
+            GameState.player.car = .yellow
         }
     }
     
@@ -241,9 +268,20 @@ final class SettingsViewController: UIViewController {
         ])
     }
     
+    //TODO: Chenge car when Save button pressed
     @objc private func obstaclesSegmentedControlDidChange(_ segmentedControl: UISegmentedControl) {
         print(#function)
-        print(segmentedControl.selectedSegmentIndex)
+    }
+    
+    private func saveSelectedObstacle() {
+        switch obstaclesSegmentedControl.selectedSegmentIndex {
+        case 0:
+            GameState.player.obstacle = .picup
+        case 2:
+            GameState.player.obstacle = .bus
+        default:
+            GameState.player.obstacle = .police
+        }
     }
     
     private func setupSpeedSegmentedControl() {
@@ -268,8 +306,65 @@ final class SettingsViewController: UIViewController {
         ])
     }
     
+    //TODO: Chenge car when Save button pressed
     @objc private func speedSegmentedControlDidChange(_ segmentedControl: UISegmentedControl) {
         print(#function)
-        print(segmentedControl.selectedSegmentIndex)
+    }
+    
+    private func saveSelectedSpeed() {
+        switch obstaclesSegmentedControl.selectedSegmentIndex {
+        case 0:
+            GameState.player.speed = .slow
+        case 2:
+            GameState.player.speed = .fast
+        default:
+            GameState.player.speed = .normal
+        }
+    }
+    
+    //MARK: Save button
+    private func setupSaveButton() {
+        saveButton.translatesAutoresizingMaskIntoConstraints = false
+        saveButton.addTarget(self, action: #selector(saveButtonDidPress), for: .touchUpInside)
+        segmentedControlsStackView.addArrangedSubview(saveButton)
+    }
+    
+    @objc private func saveButtonDidPress() {
+        saveSelectedCar()
+        saveSelectedObstacle()
+        saveSelectedSpeed()
+        savePlayerName()
+        savePlayerImage()
+        GameState.saveState()
+    }
+    
+    private func savePlayerName() {
+        if let text = nameTextField.text {
+            GameState.player.name = text
+        }
+    }
+    
+    private func savePlayerImage() {
+        GameState.player.image = playerImageView.image
+    }
+}
+
+//MARK:  UIImagePickerController
+extension SettingsViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        var newImage: UIImage
+        
+        if let possibleImage = info[.editedImage] as? UIImage {
+            newImage = possibleImage
+        } else if let possibleImage = info[.originalImage] as? UIImage {
+            newImage = possibleImage
+        } else {
+            return
+        }
+        
+        stackView.distribution = .equalCentering
+        playerImageView.image = newImage
+        dismiss(animated: true)
     }
 }

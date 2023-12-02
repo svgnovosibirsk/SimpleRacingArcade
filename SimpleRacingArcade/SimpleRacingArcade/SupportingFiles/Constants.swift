@@ -30,6 +30,7 @@ enum Constants {
     static let duration6: CGFloat = 6.0
     static let duration12: CGFloat = 12.0
     
+    static let timeInterval03: CGFloat = 0.3
     static let timeInterval1: CGFloat = 1.0
     static let timeInterval12: CGFloat = 12.0
     

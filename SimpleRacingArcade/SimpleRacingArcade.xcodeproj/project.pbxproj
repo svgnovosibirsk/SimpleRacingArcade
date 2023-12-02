@@ -14,6 +14,7 @@
 		7C8F3E512B16FB4700869652 /* UIView+RoadViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8F3E502B16FB4700869652 /* UIView+RoadViews.swift */; };
 		7C8F3E532B1719AE00869652 /* UserDefaultsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8F3E522B1719AE00869652 /* UserDefaultsStorage.swift */; };
 		7C8F3E552B171EE300869652 /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8F3E542B171EE300869652 /* GameState.swift */; };
+		7C8F3EBF2B1B1E7F00869652 /* Record.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C8F3EBE2B1B1E7F00869652 /* Record.swift */; };
 		7CC6CEDD2B0CA66B008382AE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC6CEDC2B0CA66B008382AE /* AppDelegate.swift */; };
 		7CC6CEDF2B0CA66B008382AE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC6CEDE2B0CA66B008382AE /* SceneDelegate.swift */; };
 		7CC6CEE12B0CA66B008382AE /* FirstScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC6CEE02B0CA66B008382AE /* FirstScreenViewController.swift */; };
@@ -38,6 +39,7 @@
 		7C8F3E502B16FB4700869652 /* UIView+RoadViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+RoadViews.swift"; sourceTree = "<group>"; };
 		7C8F3E522B1719AE00869652 /* UserDefaultsStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsStorage.swift; sourceTree = "<group>"; };
 		7C8F3E542B171EE300869652 /* GameState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameState.swift; sourceTree = "<group>"; };
+		7C8F3EBE2B1B1E7F00869652 /* Record.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Record.swift; sourceTree = "<group>"; };
 		7CC6CED92B0CA66B008382AE /* SimpleRacingArcade.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimpleRacingArcade.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7CC6CEDC2B0CA66B008382AE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7CC6CEDE2B0CA66B008382AE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -160,6 +162,7 @@
 			isa = PBXGroup;
 			children = (
 				7CC6CF012B0CD0F8008382AE /* Player.swift */,
+				7C8F3EBE2B1B1E7F00869652 /* Record.swift */,
 				7CC6CF032B0CD22E008382AE /* Car.swift */,
 				7CC6CF052B0CD2A3008382AE /* Obstacle.swift */,
 				7C5A29802B0DE7720018D453 /* Speed.swift */,
@@ -250,6 +253,7 @@
 				7C5A297B2B0DC3C50018D453 /* LargeFontLabel.swift in Sources */,
 				7CC6CEDD2B0CA66B008382AE /* AppDelegate.swift in Sources */,
 				7C5A297F2B0DE3850018D453 /* UIImage+Size.swift in Sources */,
+				7C8F3EBF2B1B1E7F00869652 /* Record.swift in Sources */,
 				7CC6CEDF2B0CA66B008382AE /* SceneDelegate.swift in Sources */,
 				7CC6CEF72B0CCC77008382AE /* GameViewController.swift in Sources */,
 				7CC6CEF22B0CA9E9008382AE /* RoundedButton.swift in Sources */,
