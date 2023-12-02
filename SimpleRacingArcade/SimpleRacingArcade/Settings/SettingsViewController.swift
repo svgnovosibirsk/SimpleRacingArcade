@@ -27,6 +27,7 @@ final class SettingsViewController: UIViewController {
     private let carSegmentedControl = UISegmentedControl(items: Car.cars())
     private let obstaclesSegmentedControl = UISegmentedControl(items: Obstacle.obstacles())
     private let speedSegmentedControl = UISegmentedControl(items: Speed.speedOptions())
+    var tapGestureRecognizer: UITapGestureRecognizer?
 
     //MARK: - Lifecycle
     override func viewDidLoad() {
@@ -145,13 +146,21 @@ final class SettingsViewController: UIViewController {
                                      height: Constants.width200))
         
         playerImageView.tintColor = .black
-        //TODO: delete or implement
-//        playerImageView.layer.borderColor = UIColor.black.cgColor
-//        playerImageView.layer.borderWidth = 2
-//        playerImageView.layer.cornerRadius = (playerImageView.image?.size.height)! / 2
-//        playerImageView.clipsToBounds = true
+        playerImageView.layer.borderColor = UIColor.black.cgColor
+        playerImageView.layer.borderWidth = Constants.borderWidth2
+        playerImageView.layer.cornerRadius = Constants.cornerRadius20
+        playerImageView.clipsToBounds = true
         playerImageView.contentMode = .scaleAspectFit
+        playerImageView.isUserInteractionEnabled = true
+        
+        tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(playerImageViewDidTap(_:)))
+        playerImageView.addGestureRecognizer(tapGestureRecognizer!)
+        
         setPlayerImageViewConstaraints()
+    }
+    
+    @objc func playerImageViewDidTap(_ sender: UITapGestureRecognizer) {
+        print(#function)
     }
     
     private func setPlayerImageViewConstaraints() {
