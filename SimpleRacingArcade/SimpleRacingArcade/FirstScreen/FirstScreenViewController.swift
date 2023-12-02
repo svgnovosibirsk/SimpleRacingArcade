@@ -15,6 +15,7 @@ final class FirstScreenViewController: UIViewController {
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         
         title = Constants.firstScreenTitle
         view.backgroundColor = .white
