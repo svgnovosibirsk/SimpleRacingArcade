@@ -222,9 +222,6 @@ final class SettingsViewController: UIViewController {
     }
     
     @objc private func carSegmentedControlDidChange(_ segmentedControl: UISegmentedControl) {
-        print(#function)
-        print(segmentedControl.selectedSegmentIndex)
-        
         switch segmentedControl.selectedSegmentIndex {
         case 0:
             segmentedControl.selectedSegmentTintColor = .systemRed
@@ -232,6 +229,17 @@ final class SettingsViewController: UIViewController {
             segmentedControl.selectedSegmentTintColor = .systemGreen
         default:
             segmentedControl.selectedSegmentTintColor = .yellow
+        }
+    }
+    
+    private func saveSelectedCar() {
+        switch carSegmentedControl.selectedSegmentIndex {
+        case 0:
+            GameState.player.car = .red
+        case 2:
+            GameState.player.car = .green
+        default:
+            GameState.player.car = .yellow
         }
     }
     
@@ -257,9 +265,20 @@ final class SettingsViewController: UIViewController {
         ])
     }
     
+    //TODO: Chenge car when Save button pressed
     @objc private func obstaclesSegmentedControlDidChange(_ segmentedControl: UISegmentedControl) {
         print(#function)
-        print(segmentedControl.selectedSegmentIndex)
+    }
+    
+    private func saveSelectedObstacle() {
+        switch obstaclesSegmentedControl.selectedSegmentIndex {
+        case 0:
+            GameState.player.obstacle = .picup
+        case 2:
+            GameState.player.obstacle = .bus
+        default:
+            GameState.player.obstacle = .police
+        }
     }
     
     private func setupSpeedSegmentedControl() {
@@ -284,9 +303,20 @@ final class SettingsViewController: UIViewController {
         ])
     }
     
+    //TODO: Chenge car when Save button pressed
     @objc private func speedSegmentedControlDidChange(_ segmentedControl: UISegmentedControl) {
         print(#function)
-        print(segmentedControl.selectedSegmentIndex)
+    }
+    
+    private func saveSelectedSpeed() {
+        switch obstaclesSegmentedControl.selectedSegmentIndex {
+        case 0:
+            GameState.player.speed = .slow
+        case 2:
+            GameState.player.speed = .fast
+        default:
+            GameState.player.speed = .normal
+        }
     }
     
     //MARK: Save button
@@ -298,9 +328,20 @@ final class SettingsViewController: UIViewController {
     
     @objc private func saveButtonDidPress() {
         print(#function)
+        saveSelectedCar()
+        saveSelectedObstacle()
+        saveSelectedSpeed()
     }
     
-   
+    private func savePlayerName() {
+        if let text = nameLabel.text {
+            GameState.player.name = text
+        }
+    }
+    
+    private func savePlayerImage() {
+        GameState.player.image = playerImageView.image
+    }
 }
 
 //MARK:  UIImagePickerController
