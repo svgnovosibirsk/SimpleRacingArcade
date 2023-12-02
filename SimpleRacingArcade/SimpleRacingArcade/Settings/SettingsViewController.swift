@@ -12,6 +12,7 @@ final class SettingsViewController: UIViewController {
     private enum LocalConstants {
         static let nameLabelPlaceholder = "Enter your name"
         static let imagePlaceholderName = "person"
+        static let saveTitle = "Save"
         static let selectedCarSegment = 1
         static let selectedSegmentWhite: CGFloat = 0
         static let selectedSegmentAlfa = 0.2
@@ -27,7 +28,8 @@ final class SettingsViewController: UIViewController {
     private let carSegmentedControl = UISegmentedControl(items: Car.cars())
     private let obstaclesSegmentedControl = UISegmentedControl(items: Obstacle.obstacles())
     private let speedSegmentedControl = UISegmentedControl(items: Speed.speedOptions())
-    var tapGestureRecognizer: UITapGestureRecognizer?
+    private let saveButton = UIButton.roundedButton(title: LocalConstants.saveTitle, color: .black)
+    private var tapGestureRecognizer: UITapGestureRecognizer?
 
     //MARK: - Lifecycle
     override func viewDidLoad() {
@@ -50,6 +52,7 @@ final class SettingsViewController: UIViewController {
         setupCarSegmentedControl()
         setupObstaclesSegmentedControl()
         setupSpeedSegmentedControl()
+        setupSaveButton()
     }
     
     //MARK: Stack
@@ -285,6 +288,19 @@ final class SettingsViewController: UIViewController {
         print(#function)
         print(segmentedControl.selectedSegmentIndex)
     }
+    
+    //MARK: Save button
+    private func setupSaveButton() {
+        saveButton.translatesAutoresizingMaskIntoConstraints = false
+        saveButton.addTarget(self, action: #selector(saveButtonDidPress), for: .touchUpInside)
+        segmentedControlsStackView.addArrangedSubview(saveButton)
+    }
+    
+    @objc private func saveButtonDidPress() {
+        print(#function)
+    }
+    
+   
 }
 
 //MARK:  UIImagePickerController
