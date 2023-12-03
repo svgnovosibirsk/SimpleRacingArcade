@@ -312,7 +312,7 @@ final class SettingsViewController: UIViewController {
     }
     
     private func saveSelectedSpeed() {
-        switch obstaclesSegmentedControl.selectedSegmentIndex {
+        switch speedSegmentedControl.selectedSegmentIndex {
         case 0:
             GameState.player.speed = .slow
         case 2:

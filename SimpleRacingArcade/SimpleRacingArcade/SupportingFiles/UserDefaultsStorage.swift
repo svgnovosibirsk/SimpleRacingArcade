@@ -7,14 +7,13 @@
 
 import UIKit
 
+//MARK: - Protocol
 protocol StorageProtocol {
-//    func saveGameState(dto: GameStateDTO)
-//    func fetchGameState() -> GameStateDTO?
-    
     func saveGameState()
     func fetchGameState()
 }
 
+//MARK: - Constants
 private enum LocalConstants {
     static let playerName = "playerName"
     static let playerScore = "playerScore"
@@ -36,15 +35,6 @@ final class UserDefaultsStorage: StorageProtocol {
     private init() {}
     
     //MARK: - Flow
-//    func saveGameState(dto: GameStateDTO) {
-//        print(#function)
-//    }
-//
-//    func fetchGameState() -> GameStateDTO? {
-//        print(#function)
-//        return nil
-//    }
-    
     func saveGameState() {
         let defaults = UserDefaults.standard
         defaults.set(GameState.player.name, forKey: LocalConstants.playerName)

@@ -79,8 +79,6 @@ final class GameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        GameState.fetchState()
-        
         title = "\(LocalConstants.score) \(score)"
         view.backgroundColor = .systemGray3
         
@@ -275,7 +273,6 @@ final class GameViewController: UIViewController {
     
     private func setupObstaclesTimer() {
         setObstacleSpeed()
-        
         obstacalesTimer = Timer.scheduledTimer(timeInterval: obstacleSpeed,
                                          target: self,
                                          selector: #selector(generateObstacles),
