@@ -8,11 +8,6 @@
 import UIKit
 
 final class RecordsViewController: UIViewController {
-    //MARK: - Constants
-    private enum LocalConstants {
-        static let cellId = "cellId"
-    }
-
     //MARK: - Properties
     private let tableView = UITableView()
     
@@ -32,7 +27,7 @@ final class RecordsViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(tableView)
         tableView.frame = view.bounds
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: LocalConstants.cellId)
+        tableView.register(RecordTableViewCell.self, forCellReuseIdentifier: RecordTableViewCell.identifier)
         tableView.backgroundColor = .systemGreen
         tableView.delegate = self
         tableView.dataSource = self
@@ -46,11 +41,13 @@ extension RecordsViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: LocalConstants.cellId, for: indexPath)
-        let record = GameState.records.sorted{$0.score > $1.score}[indexPath.row]
-        cell.backgroundColor = .systemGreen
-        cell.textLabel?.text = "\(record.name): \(record.score)"
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: RecordTableViewCell.identifier,
+            for: indexPath
+        ) as? RecordTableViewCell else { return  UITableViewCell() }
         
+        let record = GameState.records.sorted{$0.score > $1.score}[indexPath.row]
+        cell.configure(with: record)
         return cell
     }
     

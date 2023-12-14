@@ -29,6 +29,7 @@
 		7CC6CF022B0CD0F8008382AE /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC6CF012B0CD0F8008382AE /* Player.swift */; };
 		7CC6CF042B0CD22E008382AE /* Car.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC6CF032B0CD22E008382AE /* Car.swift */; };
 		7CC6CF062B0CD2A3008382AE /* Obstacle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CC6CF052B0CD2A3008382AE /* Obstacle.swift */; };
+		7CEF38922B2AC1970016FC41 /* RecordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CEF38912B2AC1970016FC41 /* RecordTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +57,7 @@
 		7CC6CF012B0CD0F8008382AE /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		7CC6CF032B0CD22E008382AE /* Car.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Car.swift; sourceTree = "<group>"; };
 		7CC6CF052B0CD2A3008382AE /* Obstacle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Obstacle.swift; sourceTree = "<group>"; };
+		7CEF38912B2AC1970016FC41 /* RecordTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +147,7 @@
 		7CC6CEFE2B0CCD0D008382AE /* RecordsScreen */ = {
 			isa = PBXGroup;
 			children = (
+				7CEF38952B2AC1EF0016FC41 /* Model */,
 				7CC6CEF82B0CCCB5008382AE /* RecordsViewController.swift */,
 			);
 			path = RecordsScreen;
@@ -169,6 +172,14 @@
 				7C8F3E542B171EE300869652 /* GameState.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		7CEF38952B2AC1EF0016FC41 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				7CEF38912B2AC1970016FC41 /* RecordTableViewCell.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -260,6 +271,7 @@
 				7CC6CF022B0CD0F8008382AE /* Player.swift in Sources */,
 				7C8F3E552B171EE300869652 /* GameState.swift in Sources */,
 				7C8F3E532B1719AE00869652 /* UserDefaultsStorage.swift in Sources */,
+				7CEF38922B2AC1970016FC41 /* RecordTableViewCell.swift in Sources */,
 				7CC6CEFB2B0CCCC5008382AE /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
